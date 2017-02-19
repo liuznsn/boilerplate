@@ -1,0 +1,85 @@
+PODS:
+  - Alamofire (4.2.0)
+  - Moya (8.0.1):
+    - Moya/Core (= 8.0.1)
+  - Moya-ObjectMapper/Core (2.3.1):
+    - Moya (~> 8.0)
+    - ObjectMapper (~> 2.2)
+  - Moya-ObjectMapper/RxSwift (2.3.1):
+    - Moya-ObjectMapper/Core
+    - Moya/RxSwift
+    - RxSwift (~> 3.1)
+  - Moya/Core (8.0.1):
+    - Alamofire (~> 4.2.0)
+    - Result (~> 3.1.0)
+  - Moya/RxSwift (8.0.1):
+    - Moya/Core
+    - RxSwift (~> 3.1.0)
+  - Nimble (6.0.1)
+  - ObjectMapper (2.2.2)
+  - Quick (1.1.0)
+  - Result (3.1.0)
+  - RxBlocking (3.1.0):
+    - RxSwift (~> 3.1)
+  - RxCocoa (3.1.0):
+    - RxSwift (~> 3.1)
+  - RxDataSources (1.0.2):
+    - RxCocoa (~> 3.0)
+    - RxSwift (~> 3.0)
+  - RxOptional (3.1.3):
+    - RxCocoa
+    - RxSwift
+  - RxSwift (3.1.0)
+  - SDWebImage (3.8.2):
+    - SDWebImage/Core (= 3.8.2)
+  - SDWebImage/Core (3.8.2)
+  - SVProgressHUD (2.1.2)
+  - SwiftIconFont (2.6.0)
+  - XLPagerTabStrip (7.0.0)
+
+DEPENDENCIES:
+  - Moya-ObjectMapper/RxSwift (from `https://github.com/ivanbruel/Moya-ObjectMapper`)
+  - Moya/RxSwift
+  - Nimble (~> 6.0)
+  - Quick (~> 1.1)
+  - Result (~> 3.1)
+  - RxBlocking (~> 3.1)
+  - RxCocoa (~> 3.1)
+  - RxDataSources (~> 1.0)
+  - RxOptional (~> 3.1)
+  - RxSwift (~> 3.1)
+  - SDWebImage (~> 3.8)
+  - SVProgressHUD
+  - SwiftIconFont
+  - XLPagerTabStrip (~> 7.0)
+
+EXTERNAL SOURCES:
+  Moya-ObjectMapper:
+    :git: https://github.com/ivanbruel/Moya-ObjectMapper
+
+CHECKOUT OPTIONS:
+  Moya-ObjectMapper:
+    :commit: ab500368d9a721e6e82e09d11c2fd169047f0742
+    :git: https://github.com/ivanbruel/Moya-ObjectMapper
+
+SPEC CHECKSUMS:
+  Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
+  Moya: f2e10a04fcb27fec154cb2afa4e536e8b46dac04
+  Moya-ObjectMapper: 868c88169d20e5b48bff160d3730252e6ac33394
+  Nimble: 1527fd1bd2b4cf0636251a36bc8ab37e81da8347
+  ObjectMapper: 9e385c2295bcc4e16eabbcfc85db801442bba545
+  Quick: dafc587e21eed9f4cab3249b9f9015b0b7a7f71d
+  Result: 4e3ed5995ed94d0cd6a09be9a431fce3f3624bbf
+  RxBlocking: cd73ef6a5f8c39cede9488178c46aa0c3c3ed17f
+  RxCocoa: 50d7564866da9299161e86a263ce12a0873904d8
+  RxDataSources: 1de77880bf5b7fcee42102adcd5a5d65e5b81541
+  RxOptional: b97b59183af80d1e729ac9e51d09a10be668d6a8
+  RxSwift: 83ff553e7593fdfdcb2562933a64c0284dffdadc
+  SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
+  SVProgressHUD: c404a55d78acbeb7ebb78b76d3faf986475a6994
+  SwiftIconFont: bbe1f32e1e16bac87dad8566afc80132cb8d072c
+  XLPagerTabStrip: 9be80a66c6b7d60306b2c0a6004965016d68f813
+
+PODFILE CHECKSUM: 90479782449086a88460374da5428178338d9d05
+
+COCOAPODS: 1.0.1
