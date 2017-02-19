@@ -14,9 +14,12 @@ Swift3 and Using MVVM architecture(Rxswfit + Moya) to implement Github client de
 *  RxDataSources
 *  ObjectMapper (Object mapping)
 
-###Setup
+##Setup
 
 ```
 cd github
 pod install
 ```
+
+##Licence
+MIT
