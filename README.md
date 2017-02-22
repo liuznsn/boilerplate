@@ -17,7 +17,6 @@ Swift 3+ and Using MVVM architecture(Rxswfit + Moya) to implement Github client 
 ##Setup
 
 ```
-cd github
 pod install
 ```
 ## Requirements
