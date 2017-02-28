@@ -62,17 +62,19 @@ class TrendingViewController: UIViewController,UITableViewDelegate,IndicatorInfo
             .subscribe(onNext: tableView.deselectRow)
             .addDisposableTo(disposeBag)
         
-        /*
+        
          self.tableView.rx.itemSelected
          .subscribe(onNext: { [weak self]indexPath in
-         print("indexPath.row:\(indexPath.row)")
+           self?.viewModel.inputs.tapped(indexRow: indexPath.row)
          }).addDisposableTo(disposeBag)
-         */
-        
+ 
+        /*
         self.tableView.rx.modelSelected(Repository.self)
             .subscribe(onNext: { repo in
                 self.viewModel.inputs.tapped(repository: repo)
             }).addDisposableTo(disposeBag)
+        */
+        
         
         self.viewModel.isLoading
             .do(onNext: { isLoading in

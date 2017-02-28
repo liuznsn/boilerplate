@@ -79,6 +79,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>RxTest.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>SDWebImage.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -122,7 +127,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>282B82CA0EA3007BA823A38B5865270D</key>
+		<key>27087F979CD50C93FB5A80C40ED70D41</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -167,7 +172,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>74C9D7CC2B3031D6E84835B882C06BE6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>753143EFEF20AA6419A69C72D555DA6D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>81FE7C95A57A8743FAAC9D1766455976</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -193,11 +208,6 @@
 			<true/>
 		</dict>
 		<key>EFDB85DF4827734B35E8A46720ACAEE0</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>F8A973934688D852465811F20D9CECD0</key>
 		<dict>
 			<key>primary</key>
 			<true/>

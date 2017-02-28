@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6158C12F1E651FAD00D983DB /* LoginViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6158C12E1E651FAD00D983DB /* LoginViewModelSpec.swift */; };
+		6158C1321E65270900D983DB /* SearchResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 6158C1301E65270900D983DB /* SearchResponse.json */; };
+		6158C1331E65270900D983DB /* TrendingViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6158C1311E65270900D983DB /* TrendingViewModelSpec.swift */; };
+		6158C1351E6528BE00D983DB /* StubResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6158C1341E6528BE00D983DB /* StubResponse.swift */; };
+		6158C1361E6528BE00D983DB /* StubResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6158C1341E6528BE00D983DB /* StubResponse.swift */; };
+		6158C1381E6551B400D983DB /* SearchReposViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6158C1371E6551B400D983DB /* SearchReposViewModelSpec.swift */; };
 		61684E701E5156F7007E0AA9 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61684E6D1E5156F7007E0AA9 /* Repository.swift */; };
 		61684E711E5156F7007E0AA9 /* Owner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61684E6E1E5156F7007E0AA9 /* Owner.swift */; };
 		61684E721E5156F7007E0AA9 /* Repositories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61684E6F1E5156F7007E0AA9 /* Repositories.swift */; };
@@ -78,6 +84,11 @@
 		0C3EB765DC58702C3410E5EF /* Pods-BoilerplateUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoilerplateUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BoilerplateUITests/Pods-BoilerplateUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		19650BB120A5590D9090BDAA /* Pods_BoilerplateUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BoilerplateUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D8BF71103B662116FAE47DC /* Pods-BoilerplateTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoilerplateTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BoilerplateTests/Pods-BoilerplateTests.debug.xcconfig"; sourceTree = "<group>"; };
+		6158C12E1E651FAD00D983DB /* LoginViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewModelSpec.swift; sourceTree = "<group>"; };
+		6158C1301E65270900D983DB /* SearchResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SearchResponse.json; sourceTree = "<group>"; };
+		6158C1311E65270900D983DB /* TrendingViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrendingViewModelSpec.swift; sourceTree = "<group>"; };
+		6158C1341E6528BE00D983DB /* StubResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StubResponse.swift; sourceTree = "<group>"; };
+		6158C1371E6551B400D983DB /* SearchReposViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchReposViewModelSpec.swift; sourceTree = "<group>"; };
 		61684E6D1E5156F7007E0AA9 /* Repository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		61684E6E1E5156F7007E0AA9 /* Owner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Owner.swift; sourceTree = "<group>"; };
 		61684E6F1E5156F7007E0AA9 /* Repositories.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Repositories.swift; sourceTree = "<group>"; };
@@ -219,8 +230,13 @@
 		61CD9EED1E4AB76B001FE7A2 /* BoilerplateTests */ = {
 			isa = PBXGroup;
 			children = (
+				6158C1301E65270900D983DB /* SearchResponse.json */,
 				61CD9EEE1E4AB76B001FE7A2 /* BoilerplateTests.swift */,
 				61CD9EF01E4AB76B001FE7A2 /* Info.plist */,
+				6158C12E1E651FAD00D983DB /* LoginViewModelSpec.swift */,
+				6158C1311E65270900D983DB /* TrendingViewModelSpec.swift */,
+				6158C1341E6528BE00D983DB /* StubResponse.swift */,
+				6158C1371E6551B400D983DB /* SearchReposViewModelSpec.swift */,
 			);
 			path = BoilerplateTests;
 			sourceTree = "<group>";
@@ -380,6 +396,7 @@
 				61CD9EF21E4AB76B001FE7A2 /* Frameworks */,
 				61CD9EF31E4AB76B001FE7A2 /* Resources */,
 				364D27C846533DD25FCA4952 /* [CP] Copy Pods Resources */,
+				19E4E37C14BFC777637E711B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -455,6 +472,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6158C1321E65270900D983DB /* SearchResponse.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -481,6 +499,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BoilerplateTests/Pods-BoilerplateTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		19E4E37C14BFC777637E711B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BoilerplateUITests/Pods-BoilerplateUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		28C3F24F5950795D21AE018C /* [CP] Copy Pods Resources */ = {
@@ -525,7 +558,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		85FD6F77555623C51B8799E3 /* [CP] Check Pods Manifest.lock */ = {
@@ -540,7 +573,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		8BCA5B85078194E1CED8B722 /* [CP] Copy Pods Resources */ = {
@@ -585,7 +618,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -615,6 +648,7 @@
 				61D4C3481E5599C3008CF509 /* SegmentedViewController.swift in Sources */,
 				61BD45791E53EFB2000E93C6 /* Base.swift in Sources */,
 				61CD9F121E4AE70C001FE7A2 /* App.swift in Sources */,
+				6158C1351E6528BE00D983DB /* StubResponse.swift in Sources */,
 				61BD45891E54019F000E93C6 /* Committer.swift in Sources */,
 				61BD458D1E5402F4000E93C6 /* Commits.swift in Sources */,
 				61D4C33F1E543799008CF509 /* RepoCell.swift in Sources */,
@@ -643,6 +677,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				61CD9EEF1E4AB76B001FE7A2 /* BoilerplateTests.swift in Sources */,
+				6158C12F1E651FAD00D983DB /* LoginViewModelSpec.swift in Sources */,
+				6158C1381E6551B400D983DB /* SearchReposViewModelSpec.swift in Sources */,
+				6158C1361E6528BE00D983DB /* StubResponse.swift in Sources */,
+				6158C1331E65270900D983DB /* TrendingViewModelSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

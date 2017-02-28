@@ -14,7 +14,7 @@ public protocol TrendingViewModelInputs {
     var loadPageTrigger:PublishSubject<Void> { get }
     var loadNextPageTrigger:PublishSubject<Void> { get }
     func refresh()
-    func tapped(repository: Repository)
+    func tapped(indexRow: Int)
     func keyword(keyword:String)
 }
 
@@ -111,7 +111,8 @@ public class TrendingViewModel: TrendingViewModelType, TrendingViewModelInputs, 
     }
     
     let repository = Variable<Repository?>(nil)
-    public func tapped(repository: Repository) {
+    public func tapped(indexRow: Int) {
+      let repository = self.elements.value[indexRow]
         self.repository.value = repository
     }
     

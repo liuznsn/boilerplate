@@ -16,8 +16,8 @@ public class GitHubDefaultValidationService: GitHubValidationService {
     
     static let sharedValidationService = GitHubDefaultValidationService()
     
-    public func validateEmail(_ email: String) -> Observable<ValidationResult> {
-        if email.characters.count == 0 {
+    public func validateUserid(_ userid: String) -> Observable<ValidationResult> {
+        if userid.characters.count < 6 {
             return .just(.empty)
         } else {
             return .just(.ok(message: "Username available"))

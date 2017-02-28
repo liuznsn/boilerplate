@@ -9,6 +9,14 @@
 import Foundation
 import Moya
 
+public var stubJsonPath = ""
+
+public var GithubProvider = RxMoyaProvider<GitHub>(
+    endpointClosure:endpointClosure,
+    requestClosure:requestClosure,
+    plugins: [NetworkLoggerPlugin(verbose: false, responseDataFormatter: JSONResponseDataFormatter)]
+)
+
 public func JSONResponseDataFormatter(_ data: Data) -> Data {
     do {
         let dataAsJSON = try JSONSerialization.jsonObject(with: data)
@@ -47,12 +55,6 @@ let endpointClosure = { (target: GitHub) -> Endpoint<GitHub> in
     }
     
 }
-
-public var GithubProvider = RxMoyaProvider<GitHub>(
-    endpointClosure:endpointClosure,
-    requestClosure:requestClosure,
-    plugins: [NetworkLoggerPlugin(verbose: false, responseDataFormatter: JSONResponseDataFormatter)]
-)
 
 
 public func url(route: TargetType) -> String {
@@ -168,7 +170,15 @@ extension GitHub: TargetType {
     }
     
     public var sampleData: Data {
-        return "".data(using: String.Encoding.utf8)!
+        
+        switch self {
+         case   .RepoSearch(_),
+                .TrendingReposSinceLastWeek(_,_):
+            return StubResponse.fromJSONFile(filePath: stubJsonPath)
+        default:
+            return "".data(using: String.Encoding.utf8)!
+        }
+        
     }
 
 }

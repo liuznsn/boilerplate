@@ -55,9 +55,6 @@ public class ProfileViewModel: ProfileViewModelType, ProfileViewModelInputs, Pro
             }
         
         
-         let environment = Environment()
-        
-        
     }
     
     public var isLoading: Driver<Bool>

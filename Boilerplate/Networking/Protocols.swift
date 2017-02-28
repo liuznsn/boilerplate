@@ -26,7 +26,7 @@ public protocol GitHubAPI {
 }
 
 public protocol GitHubValidationService {
-    func validateEmail(_ email: String) -> Observable<ValidationResult>
+    func validateUserid(_ userid: String) -> Observable<ValidationResult>
     func validatePassword(_ password: String) -> ValidationResult
 }
 

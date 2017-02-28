@@ -26,7 +26,7 @@ target 'Boilerplate' do
     inherit! :search_paths
     pod 'Quick', '~> 1.1'
     pod 'Nimble', '~> 6.0'
-    #pod 'RxTests', '~> 2.6'
+    pod 'RxTest', '~> 3.0'
     # Pods for testing
   end
 

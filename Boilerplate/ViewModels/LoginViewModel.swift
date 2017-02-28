@@ -48,7 +48,7 @@ public class LoginViewModel: LoginViewModelType, LoginViewModelInputs, LoginView
         let validationService = GitHubDefaultValidationService.sharedValidationService
         
         self.validatedEmail = self.email.asDriver(onErrorJustReturn: nil).flatMapLatest{ email in
-            return validationService.validateEmail(email!)
+            return validationService.validateUserid(email!)
                 .asDriver(onErrorJustReturn: .failed(message: "Error contacting server"))
         }
         
