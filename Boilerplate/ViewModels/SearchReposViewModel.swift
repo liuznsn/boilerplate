@@ -48,12 +48,13 @@ public class SearchReposViewModel: SearchReposViewModelType, SearchReposViewMode
             .throttle(0.3)
             .distinctUntilChanged()
             .flatMap { query -> Driver<[Repository]> in
+                self.pageIndex = 1;
+                self.elements.value = []
                 self.query = query!
                 return API.sharedAPI.repositories(query!, page: self.pageIndex)
                     .trackActivity(isLoading)
                     .asDriver(onErrorJustReturn: [])
         }
-
         
         let nextPageRequest = isLoading
             .asObservable()
