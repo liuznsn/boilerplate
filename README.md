@@ -27,5 +27,5 @@ pod install
 * iOS 8.0+ / Mac OS X 10.9+
 * Xcode 8.0+
 
-##Licence
+## Licence
 MIT
