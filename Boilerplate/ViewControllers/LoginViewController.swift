@@ -19,8 +19,8 @@ typealias TitleSectionModel = SectionModel<String, LoginForm>
 
 class LoginViewController: UIViewController,UITableViewDelegate {
 
-   let dataSource = RxTableViewSectionedReloadDataSource<TitleSectionModel>()
-   
+//var dataSource = RxTableViewSectionedReloadDataSource<TitleSectionModel>
+   var dataSource:RxTableViewSectionedReloadDataSource<TitleSectionModel>!
    private let viewModel = LoginViewModel()
    private let disposeBag = DisposeBag()
    private var tableView: UITableView!
@@ -32,17 +32,18 @@ class LoginViewController: UIViewController,UITableViewDelegate {
     }
     
     func bindRx() {
-        dataSource.configureCell = { dataSource, tableView, indexPath, element in
-            let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "reuseIdentifier")
-            switch element {
-            case let .textfield(title, textfield):
-                textfield.placeholder = title
-                textfield.frame = CGRect(x: 20, y: 5, width: Int(cell.frame.width - 40), height: Int(cell.frame.height - 10))
-                cell.addSubview(textfield)
-            }
-            return cell
-        }
-        
+         dataSource = RxTableViewSectionedReloadDataSource<TitleSectionModel>(
+            configureCell: { dataSource, tableView, indexPath, element in
+                let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "reuseIdentifier")
+                switch element {
+                case let .textfield(title, textfield):
+                    textfield.placeholder = title
+                    textfield.frame = CGRect(x: 20, y: 5, width: Int(cell.frame.width - 40), height: Int(cell.frame.height - 10))
+                    cell.addSubview(textfield)
+                }
+                return cell
+        })
+ 
         let emailTextField = UITextField()
         let passwordTextField = UITextField()
         passwordTextField.isSecureTextEntry = true
@@ -55,42 +56,42 @@ class LoginViewController: UIViewController,UITableViewDelegate {
             ])
         
         sections
-            .bindTo(self.tableView.rx.items(dataSource: dataSource))
-            .addDisposableTo(disposeBag)
+            .bind(to: self.tableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
         
         
         emailTextField.becomeFirstResponder()
         
         
         loginButton.rx.tap
-            .bindTo(self.viewModel.inputs.loginTaps)
-            .addDisposableTo(disposeBag)
+            .bind(to:self.viewModel.inputs.loginTaps)
+            .disposed(by: disposeBag)
         
         
         emailTextField.rx.text
-            .bindTo(self.viewModel.inputs.email)
-            .addDisposableTo(disposeBag)
+            .bind(to:self.viewModel.inputs.email)
+            .disposed(by: disposeBag)
         
         passwordTextField.rx.text
-            .bindTo(self.viewModel.inputs.password)
-            .addDisposableTo(disposeBag)
+            .bind(to:self.viewModel.inputs.password)
+            .disposed(by: disposeBag)
         
         
         self.viewModel.outputs.enableLogin.drive(onNext: { enable in
             self.loginButton.isEnabled = enable
-        }).addDisposableTo(disposeBag)
+        }).disposed(by: disposeBag)
         
         self.viewModel.outputs.validatedEmail
             .drive()
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         self.viewModel.outputs.validatedPassword
             .drive()
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         self.viewModel.outputs.enableLogin
             .drive()
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         self.viewModel.outputs.signedIn
             .drive(onNext: { signedIn in
@@ -99,12 +100,12 @@ class LoginViewController: UIViewController,UITableViewDelegate {
                 } else {
                     SVProgressHUD.showError(withStatus: "Login Error")
                 }
-            }).addDisposableTo(disposeBag)
+            }).disposed(by: disposeBag)
         
         self.viewModel.isLoading
             //.drive()
             .drive(isLoading(for: self.view))
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
     }
 
     func configureTableView() {
@@ -115,7 +116,7 @@ class LoginViewController: UIViewController,UITableViewDelegate {
         self.title = "Login"
         self.tableView = UITableView(frame: UIScreen.main.bounds)
         self.tableView.register(HeaderView.self, forHeaderFooterViewReuseIdentifier: "HeaderView")
-        self.tableView.rx.setDelegate(self).addDisposableTo(disposeBag)
+        self.tableView.rx.setDelegate(self).disposed(by: disposeBag)
         self.tableView.isScrollEnabled = false
         self.tableView.allowsSelection = false
         self.view = self.tableView

@@ -17,7 +17,7 @@ public class GitHubDefaultValidationService: GitHubValidationService {
     static let sharedValidationService = GitHubDefaultValidationService()
     
     public func validateUserid(_ userid: String) -> Observable<ValidationResult> {
-        if userid.characters.count < 6 {
+        if userid.count < 6 {
             return .just(.empty)
         } else {
             return .just(.ok(message: "Username available"))
@@ -25,7 +25,7 @@ public class GitHubDefaultValidationService: GitHubValidationService {
     }
     
     public func validatePassword(_ password: String) -> ValidationResult {
-        if password.characters.count == 0 {
+        if password.count == 0 {
             return .empty
         } else {
             return .ok(message: "Password acceptable")
@@ -38,61 +38,62 @@ public class API:GitHubAPI {
     
     static let sharedAPI = API()
     
-    public func signin(_ username: String, password: String) -> Observable<Bool>{
-       return GithubProvider.request(GitHub.Token(username: username, password: password))
-            .mapObject(Authorizations.self)
-            .observeOn(MainScheduler.instance)
-            .flatMapLatest { author -> Observable<Bool> in
-                if author.token == nil{
-                return Observable.just(false)
-               } else{
-                    var environment = Environment()
-                    environment.token = author.token
-                   return Observable.just(true)
-               }
-            }
-    }
-    
-    public func repositories(_ keyword:String, page:Int) -> Observable<[Repository]> {
-        return GithubProvider.request(GitHub.RepoSearch(query: keyword,page:page))
-            .mapObject(Repositories.self)
-            .observeOn(MainScheduler.instance)
-            .flatMapLatest{ repositories -> Observable<[Repository]> in
-                guard let items = repositories.items else {
-                    return Observable.empty()
-                }
-                return Observable.just(items)
-            }
-        
-    }
-    
-    public func recentRepositories(_ language:String, page:Int) -> Observable<[Repository]> {
-        return GithubProvider.request(GitHub.TrendingReposSinceLastWeek(language: language, page: page))
-            .mapObject(Repositories.self)
-            .observeOn(MainScheduler.instance)
-            .flatMapLatest{ repositories -> Observable<[Repository]> in
-                guard let items = repositories.items else {
-                    return Observable.empty()
-                }
-                return Observable.just(items)
-        }
-        
-    }
-    
-    public func profile() -> Observable<User> {
-        return GithubProvider.request(GitHub.User)
-               .mapObject(User.self)
+    public func signin(_ username: String, password: String) -> Single<Bool> {
+        return GithubProvider.rx.request(GitHub.Token(username: username, password: password))
+               .mapObject(Authorizations.self)
                .observeOn(MainScheduler.instance)
-               .flatMapLatest{ user -> Observable<User> in
-                  return Observable.just(user)
-               }
+               .flatMap({ author -> Single<Bool> in
+                    dump(author)
+                    if author.token == nil{
+                        return Single.just(false)
+                    } else{
+                        var environment = Environment()
+                        environment.token = author.token
+                        return Single.just(true)
+                    }
+               })
     }
     
+    
+    public func repositories(_ keyword:String, page:Int) -> Single<[Repository]> {
+        return GithubProvider.rx.request(GitHub.RepoSearch(query: keyword,page:page))
+            .mapObject(Repositories.self)
+            .observeOn(MainScheduler.instance)
+            .flatMap({ repositories -> Single<[Repository]> in
+                guard let items = repositories.items else {
+                    return Single.just([])
+                }
+                return Single.just(items)
+            })
+    }
+    
+
+    public func recentRepositories(_ language:String, page:Int) -> Single<[Repository]> {
+        return GithubProvider.rx.request(GitHub.TrendingReposSinceLastWeek(language: language, page: page))
+            .mapObject(Repositories.self)
+            .observeOn(MainScheduler.instance)
+            .flatMap({ repositories -> Single<[Repository]> in
+                guard let items = repositories.items else {
+                    return Single.just([])
+                }
+                return Single.just(items)
+            })
+    }
+
+    public func profile() -> Single<User> {
+        return GithubProvider.rx.request(GitHub.User)
+            .mapObject(User.self)
+            .observeOn(MainScheduler.instance)
+            .flatMap({ user -> Single<User> in
+                 return Single.just(user)
+            })
+        
+    }
 }
 
-
 func isLoading(for view: UIView) -> AnyObserver<Bool> {
-    return UIBindingObserver(UIElement: view, binding: { (hud, isLoading) in
+    
+    return Binder(view, binding: { (hud, isLoading) in
         switch isLoading {
         case true:
             SVProgressHUD.show()

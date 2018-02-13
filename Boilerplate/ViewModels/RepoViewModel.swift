@@ -38,7 +38,7 @@ public class RepoViewModel: RepoViewModelType, RepoViewModelInputs, RepoViewMode
         
         self.repo = repo
         
-        let lastThreePullsObservable = GithubProvider.request(GitHub.Pulls(fullname: repo.fullName))
+        let lastThreePullsObservable = GithubProvider.rx.request(GitHub.Pulls(fullname: repo.fullName))
             .mapArray(Pull.self)
             .trackActivity(Loading)
             .asDriver(onErrorJustReturn: [])
@@ -50,7 +50,7 @@ public class RepoViewModel: RepoViewModelType, RepoViewModelInputs, RepoViewMode
                 return RepositorySectionViewModel(header: "Last three pull requests", items: items)
         }
         
-        let lastThreeIssuesObservable = GithubProvider.request(GitHub.Issues(fullname: repo.fullName))
+        let lastThreeIssuesObservable = GithubProvider.rx.request(GitHub.Issues(fullname: repo.fullName))
             .mapArray(Issues.self)
             .trackActivity(Loading)
             .asDriver(onErrorJustReturn: [])
@@ -62,7 +62,7 @@ public class RepoViewModel: RepoViewModelType, RepoViewModelInputs, RepoViewMode
                 return RepositorySectionViewModel(header: "Last three issues", items: items)
         }
         
-        let lastThreeCommitsObservable = GithubProvider.request(GitHub.Commits(fullname: repo.fullName))
+        let lastThreeCommitsObservable = GithubProvider.rx.request(GitHub.Commits(fullname: repo.fullName))
             .mapArray(Commits.self)
             .trackActivity(Loading)
             .asDriver(onErrorJustReturn: [])

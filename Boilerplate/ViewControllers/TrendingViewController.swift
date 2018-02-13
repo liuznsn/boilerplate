@@ -15,7 +15,6 @@ import XLPagerTabStrip
 class TrendingViewController: UIViewController,UITableViewDelegate,IndicatorInfoProvider {
 
     private var viewModel:TrendingViewModel!
-    private let dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, Repository>>()
     private let disposeBag = DisposeBag()
     private var tableView: UITableView!
     private var searchController: UISearchController!
@@ -30,51 +29,45 @@ class TrendingViewController: UIViewController,UITableViewDelegate,IndicatorInfo
 
     func bindRx() {
         self.viewModel = TrendingViewModel()
-        self.viewModel.keyword(keyword: self.itemInfo.title)
+        self.viewModel.keyword(keyword: self.itemInfo.title!)
         self.viewModel.inputs.refresh()
         
-        dataSource.configureCell = { dataSource, tableView, indexPath, repository in
-            //   let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "reuseIdentifier")
-            let cell = RepoCell(frame: CGRect(origin: CGPoint.init(x: 0, y: 0), size: CGSize(width: UIScreen.main.bounds.width, height: 100)))
-            
-            cell.configure(title: repository.fullName ,
-                           description: repository.descriptionField,
-                           language: repository.language,
-                           stars:  "\(repository.stargazersCount) stars")
-            return cell
-        }
+        let dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, Repository>>(
+            configureCell: { dataSource, tableView, indexPath, repository in
+                let cell = RepoCell(frame: CGRect(origin: CGPoint.init(x: 0, y: 0), size: CGSize(width: UIScreen.main.bounds.width, height: 100)))
+                
+                cell.configure(title: repository.fullName ,
+                               description: repository.descriptionField,
+                               language: repository.language,
+                               stars:  "\(repository.stargazersCount) stars")
+                return cell
+        })
+        
         
         self.refreshControl?.rx.controlEvent(.valueChanged)
-            .bindTo(self.viewModel.inputs.loadPageTrigger)
-            .addDisposableTo(disposeBag)
+            .bind(to:self.viewModel.inputs.loadPageTrigger)
+            .disposed(by: disposeBag)
         
         self.tableView.rx.reachedBottom
-            .bindTo(self.viewModel.inputs.loadNextPageTrigger)
-            .addDisposableTo(disposeBag)
+            .bind(to:self.viewModel.inputs.loadNextPageTrigger)
+            .disposed(by: disposeBag)
         
         self.viewModel.outputs.elements.asDriver()
             .map { [SectionModel(model: "Repositories", items: $0)] }
             .drive(self.tableView.rx.items(dataSource: dataSource))
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         self.tableView.rx.itemSelected
             .map { (at: $0, animated: true) }
             .subscribe(onNext: tableView.deselectRow)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         
          self.tableView.rx.itemSelected
          .subscribe(onNext: { [weak self]indexPath in
            self?.viewModel.inputs.tapped(indexRow: indexPath.row)
-         }).addDisposableTo(disposeBag)
+         }).disposed(by: disposeBag)
  
-        /*
-        self.tableView.rx.modelSelected(Repository.self)
-            .subscribe(onNext: { repo in
-                self.viewModel.inputs.tapped(repository: repo)
-            }).addDisposableTo(disposeBag)
-        */
-        
         
         self.viewModel.isLoading
             .do(onNext: { isLoading in
@@ -83,14 +76,14 @@ class TrendingViewController: UIViewController,UITableViewDelegate,IndicatorInfo
                 }
             })
             .drive(isLoading(for: self.view))
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         // Do any additional setup after loading the view.
         
         self.viewModel.outputs.selectedViewModel.drive(onNext: { repoViewModel in
             let repoViewController = RepoViewController()
             repoViewController.viewModel = repoViewModel
             self.navigationController?.pushViewController(repoViewController, animated: true)
-        }).addDisposableTo(disposeBag)
+        }).disposed(by: disposeBag)
     }
     
     
@@ -102,7 +95,7 @@ class TrendingViewController: UIViewController,UITableViewDelegate,IndicatorInfo
     func configureTableView() {
         self.tableView = UITableView(frame: UIScreen.main.bounds)
         self.tableView.rx.setDelegate(self)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         self.tableView.estimatedRowHeight = 100.0;
         self.tableView.rowHeight = UITableViewAutomaticDimension;
 

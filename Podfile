@@ -5,28 +5,29 @@ platform :ios, '9.0'
 target 'Boilerplate' do
   # Comment this line if you're not using Swift and don't want to use dynamic frameworks
     use_frameworks!
-    pod 'Moya/RxSwift'
-    pod 'Result', '~> 3.1'
-    pod 'RxBlocking', '~> 3.1'
-    pod 'RxCocoa', '~> 3.1'
-    pod 'RxSwift', '~> 3.1'
-    pod 'Moya-ObjectMapper/RxSwift', :git => 'https://github.com/ivanbruel/Moya-ObjectMapper'
-    pod 'RxOptional', '~> 3.1'
+    pod 'Moya/RxSwift', '~> 10.0'
+    pod 'Result', '~> 3.2'
+    pod 'RxBlocking', '~> 4.1'
+    pod 'RxCocoa', '~> 4.1'
+    pod 'RxSwift', '~> 4.0'
+    pod 'Moya-ObjectMapper/RxSwift'
+    #pod 'Moya-ObjectMapper', '~> 2.5'
+    pod 'RxOptional', '~> 3.3'
     #  pod 'Traits', '~> 0.1'
-    pod 'RxDataSources', '~> 1.0'
+    pod 'RxDataSources', '~> 3.0'
     
     
-    pod 'XLPagerTabStrip', '~> 7.0'
+    pod 'XLPagerTabStrip', '~> 8.0'
     pod 'SVProgressHUD'
-    pod 'SwiftIconFont'
-    pod 'SDWebImage', '~>3.8'
+    pod 'SwiftIconFont', '~> 2.7'
+    pod 'SDWebImage', '~> 4.3'
   # Pods for Boilerplate
 
   target 'BoilerplateTests' do
     inherit! :search_paths
-    pod 'Quick', '~> 1.1'
-    pod 'Nimble', '~> 6.0'
-    pod 'RxTest', '~> 3.0'
+    pod 'Quick', '~> 1.2'
+    pod 'Nimble', '~> 7.0'
+    pod 'RxTest', '~> 4.1'
     # Pods for testing
   end
 
@@ -38,12 +39,5 @@ target 'Boilerplate' do
 end
 
 
-post_install do |installer|
-    installer.pods_project.targets.each do |target|
-        target.build_configurations.each do |config|
-            config.build_settings['ENABLE_TESTABILITY'] = 'YES'
-            config.build_settings['SWIFT_VERSION'] = '3.0'
-        end
-    end
-end
+
 

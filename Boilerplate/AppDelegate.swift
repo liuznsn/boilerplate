@@ -29,21 +29,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         
         let trendingTabbaritem = UITabBarItem()
-        trendingTabbaritem.icon(from: .Ionicon, code: "arrow-graph-up-right", imageSize: CGSize.init(width: 25, height: 25), ofSize: 25)
+        trendingTabbaritem.icon(from: .Ionicon, code: "arrow-graph-up-right", iconColor: UIColor.gray, imageSize: CGSize.init(width: 25, height: 25), ofSize: 25)
         trendingTabbaritem.title = "Trending"
         let searchTabbaritem = UITabBarItem()
-        searchTabbaritem.icon(from: .Ionicon, code: "ios-search-strong", imageSize: CGSize.init(width: 25, height: 25), ofSize: 25)
+        searchTabbaritem.icon(from: .Ionicon, code: "ios-search-strong", iconColor: UIColor.gray, imageSize: CGSize.init(width: 25, height: 25), ofSize: 25)
         searchTabbaritem.title = "Search"
         let profileTabbaritem = UITabBarItem()
-        profileTabbaritem.icon(from: .Ionicon, code: "person", imageSize: CGSize.init(width: 25, height: 25), ofSize: 25)
+        profileTabbaritem.icon(from: .Ionicon, code: "person", iconColor: UIColor.gray, imageSize: CGSize.init(width: 25, height: 25), ofSize: 25)
         profileTabbaritem.title = "Profile"
 
         tabBarController.viewControllers?[0].tabBarItem = trendingTabbaritem
         tabBarController.viewControllers?[1].tabBarItem = searchTabbaritem
         tabBarController.viewControllers?[2].tabBarItem = profileTabbaritem
         
-        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.gray], for: .normal)
-        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.black], for: .selected)
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.foregroundColor: UIColor.gray], for: .normal)
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.foregroundColor: UIColor.black], for: .selected)
         
         self.window?.rootViewController = tabBarController
         self.window?.makeKeyAndVisible()

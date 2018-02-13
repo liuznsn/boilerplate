@@ -19,10 +19,10 @@ public enum ValidationResult {
 }
 
 public protocol GitHubAPI {
-    func signin(_ username: String, password: String) -> Observable<Bool>
-    func repositories(_ keyword:String, page:Int) -> Observable<[Repository]>
-    func recentRepositories(_ language:String, page:Int) -> Observable<[Repository]>
-    func profile() -> Observable<User>
+    func signin(_ username: String, password: String) -> Single<Bool>
+    func repositories(_ keyword:String, page:Int) -> Single<[Repository]>
+    func recentRepositories(_ language:String, page:Int) -> Single<[Repository]>
+    func profile() -> Single<User>
 }
 
 public protocol GitHubValidationService {
