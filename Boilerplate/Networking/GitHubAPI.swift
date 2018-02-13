@@ -132,17 +132,6 @@ extension GitHub: TargetType {
         return nil
     }
     
-    public var parameterEncoding: ParameterEncoding {
-    
-        switch self {
-        case .Token(_, _):
-            return JSONEncoding.default
-        default:
-            return URLEncoding.default
-        }
-        
-    }
-    
     public var task: Task {
         switch self {
         case .Token(_,_):
