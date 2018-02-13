@@ -72,7 +72,7 @@ public class SearchReposViewModel: SearchReposViewModelType, SearchReposViewMode
         
         let request = Observable.of(keywordRequest.asObservable(),nextPageRequest)
                       .merge()
-                      .shareReplay(1)
+            .share(replay: 1)
         
         
         let response = request.flatMap { repositories -> Observable<[Repository]> in
@@ -82,15 +82,15 @@ public class SearchReposViewModel: SearchReposViewModelType, SearchReposViewMode
                 }).catchError({ error -> Observable<[Repository]> in
                     Observable.empty()
                 })
-            }.shareReplay(1)
+            }.share(replay: 1)
         
         Observable
             .combineLatest(request, response, elements.asObservable()) { request, response, elements in
                 return self.pageIndex == 1 ? response : elements + response
             }
             .sample(response)
-            .bindTo(elements)
-            .addDisposableTo(disposeBag)
+            .bind(to: elements)
+            .disposed(by: disposeBag)
 
         self.selectedViewModel = self.repository.asDriver().filterNil().flatMapLatest{ repo -> Driver<RepoViewModel> in
             return Driver.just(RepoViewModel(repo: repo))

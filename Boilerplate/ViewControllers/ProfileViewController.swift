@@ -21,8 +21,8 @@ class AvatarTableViewCell: UITableViewCell {
         contentImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         contentImageView.layer.masksToBounds = true
         contentImageView.layer.cornerRadius = 50
-        contentImageView.setShowActivityIndicator(true)
-        contentImageView.setIndicatorStyle(.gray)
+        contentImageView.sd_setShowActivityIndicatorView(true)
+        contentImageView.sd_setIndicatorStyle(.gray)
         
         self.addSubview(contentImageView)
        
@@ -37,10 +37,15 @@ class AvatarTableViewCell: UITableViewCell {
     
     var contentImageUrl: String? {
         didSet{
+            contentImageView.sd_setImage(with: URL(string:self.contentImageUrl!)) { (_, _, _, _) in
+                self.contentImageView.center = self.center
+            }
+            /*
             contentImageView.sd_setImage(with:  URL(string:self.contentImageUrl!) ) { [weak self] _ in
                  self?.contentImageView.center = (self?.center)!
                 
             }
+            */
         }
     }
     
@@ -61,35 +66,32 @@ class ProfileViewController: UIViewController, UITableViewDelegate {
     let viewMdoel = ProfileViewModel()
     private var tableView: UITableView!
     private let disposeBag = DisposeBag()
-    private let dataSource = RxTableViewSectionedReloadDataSource<ProfileSectionModel>()
+    private var dataSource:RxTableViewSectionedReloadDataSource<ProfileSectionModel>!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
         // Do any additional setup after loading the view.
+        dataSource = RxTableViewSectionedReloadDataSource<ProfileSectionModel>(
+            configureCell: { dataSource, tableView, indexPath, element in
+                switch element {
+                case let .avatar(_, avatarUrl):
+                    let cell = AvatarTableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "reuseIdentifier")
+                    cell.contentImageUrl = avatarUrl
+                    return cell
+                case let .detail(_, detail):
+                    let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "reuseIdentifier")
+                    cell.textLabel?.text = detail
+                    cell.textLabel?.textAlignment = .center
+                    cell.textLabel?.font = UIFont.systemFont(ofSize: 20)
+                    return cell
+                }
+        })
         
-        
-        
-                 
-        dataSource.configureCell = { dataSource, tableView, indexPath, element in
-            switch element {
-            case let .avatar(_, avatarUrl):
-            let cell = AvatarTableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "reuseIdentifier")
-              cell.contentImageUrl = avatarUrl
-               return cell
-            case let .detail(_, detail):
-                let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "reuseIdentifier")
-                cell.textLabel?.text = detail
-                cell.textLabel?.textAlignment = .center
-                cell.textLabel?.font = UIFont.systemFont(ofSize: 20)
-                return cell
-            }
-        }
-
         self.viewMdoel.outputs.profileObservable
         .asObservable()
-        .bindTo(self.tableView.rx.items(dataSource: dataSource))
-        .addDisposableTo(disposeBag)
+            .bind(to: self.tableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
         
     }
 
@@ -106,7 +108,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate {
         self.tableView.estimatedRowHeight = 100.0;
         self.tableView.rowHeight = UITableViewAutomaticDimension;
         */
-        self.tableView.rx.setDelegate(self).addDisposableTo(disposeBag)
+        self.tableView.rx.setDelegate(self).disposed(by: disposeBag)
         self.tableView.dataSource = nil
       
         

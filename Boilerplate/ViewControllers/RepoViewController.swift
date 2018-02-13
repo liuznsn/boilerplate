@@ -42,11 +42,11 @@ class RepoViewController: UIViewController {
             self.datasource = data
             self.tableView.reloadData()
         })
-        .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         viewModel.isLoading
             .drive(isLoading(for: self.view))
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
 
         
     }

@@ -11,7 +11,7 @@ import Moya
 
 public var stubJsonPath = ""
 
-public var GithubProvider = RxMoyaProvider<GitHub>(
+public var GithubProvider = MoyaProvider<GitHub>(
     endpointClosure:endpointClosure,
     requestClosure:requestClosure,
     plugins: [NetworkLoggerPlugin(verbose: false, responseDataFormatter: JSONResponseDataFormatter)]
@@ -27,13 +27,15 @@ public func JSONResponseDataFormatter(_ data: Data) -> Data {
     }
 }
 
-
 let requestClosure = { (endpoint: Endpoint<GitHub>, done: MoyaProvider.RequestResultClosure) in
-    var request: URLRequest = endpoint.urlRequest!
-    //request.httpShouldHandleCookies = false
-    done(.success(request))
+    do {
+        var request = try endpoint.urlRequest()
+        // Modify the request however you like.
+        done(.success(request))
+    } catch {
+       // done(.failure(MoyaError.underlying(error, <#Response?#>)))
+    }
 }
-
 
 let endpointClosure = { (target: GitHub) -> Endpoint<GitHub> in
     let url = target.baseURL.appendingPathComponent(target.path).absoluteString
@@ -81,6 +83,10 @@ public enum GitHub {
 
 
 extension GitHub: TargetType {
+    public var headers: [String : String]? {
+       return ["Content-Type": "application/json"]
+    }
+    
     public var baseURL: URL { return URL(string: "https://api.github.com")! }
 
     public var path: String {
@@ -122,34 +128,6 @@ extension GitHub: TargetType {
         }
     }
     
-    public var parameters: [String: Any]? {
-        switch self {
-        case .Token(_, _):
-            return [
-                "scopes": ["public_repo", "user"],
-                "note": "(\(NSDate()))"
-            ]
-        case .Repo(_),
-             .RepoReadMe(_),
-             .User,
-             .Pulls,
-             .Issues,
-             .Commits:
-            return nil
-        case .RepoSearch(let query,let page):
-            return ["q": query.urlEscaped,"page":page]
-        case .TrendingReposSinceLastWeek(let language,let page):
-            let lastWeek = Calendar.current.date(byAdding: .weekOfYear, value: -1, to: Date())
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd"
-            return ["q" :"language:\(language) " + "created:>" + formatter.string(from: lastWeek!),
-                    "sort" : "stars",
-                    "order" : "desc",
-                    "page":page
-            ]
-        }
-    }
-    
     var multipartBody: [MultipartFormData]? {
         return nil
     }
@@ -166,7 +144,29 @@ extension GitHub: TargetType {
     }
     
     public var task: Task {
-        return .request
+        switch self {
+        case .Token(_,_):
+                let params: [String: Any] = [
+                    "scopes": ["public_repo", "user"],
+                    "note": "(\(NSDate()))"
+                    ]
+            return .requestParameters(parameters: params, encoding: JSONEncoding.default)
+        case .RepoSearch(let query,let page):
+                let params: [String: Any] = ["q": query.urlEscaped,"page":page]
+            return .requestParameters(parameters: params, encoding: URLEncoding.default)
+        case .TrendingReposSinceLastWeek(let language,let page):
+            let lastWeek = Calendar.current.date(byAdding: .weekOfYear, value: -1, to: Date())
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            let params: [String: Any] = ["q" :"language:\(language) " + "created:>" + formatter.string(from: lastWeek!),
+             "sort" : "stars",
+             "order" : "desc",
+             "page":page
+            ]
+            return .requestParameters(parameters: params, encoding: URLEncoding.default)
+        default:
+              return .requestPlain
+        }
     }
     
     public var sampleData: Data {

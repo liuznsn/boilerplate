@@ -76,7 +76,7 @@ public class TrendingViewModel: TrendingViewModelType, TrendingViewModelInputs, 
         
         let request = Observable.of(loadRequest,nextRequest)
                                 .merge()
-                                .shareReplay(1)
+            .share(replay: 1)
         
         let response = request.flatMap { repositories -> Observable<[Repository]> in
             request
@@ -85,7 +85,7 @@ public class TrendingViewModel: TrendingViewModelType, TrendingViewModelInputs, 
                 }).catchError({ error -> Observable<[Repository]> in
                     Observable.empty()
                 })
-            }.shareReplay(1)
+            }.share(replay: 1)
         
         
         //combine data when get more data by paging
@@ -94,8 +94,8 @@ public class TrendingViewModel: TrendingViewModelType, TrendingViewModelInputs, 
                 return self.pageIndex == 1 ? response : elements + response
             }
             .sample(response)
-            .bindTo(elements)
-            .addDisposableTo(disposeBag)
+            .bind(to: elements)
+            .disposed(by: disposeBag)
         
         //binding selected item
         self.selectedViewModel = self.repository.asDriver().filterNil().flatMapLatest{ repo -> Driver<RepoViewModel> in
@@ -106,8 +106,7 @@ public class TrendingViewModel: TrendingViewModelType, TrendingViewModelInputs, 
     
     public func refresh() {
         self.loadPageTrigger
-            .onNext()
-
+            .onNext(())
     }
     
     let repository = Variable<Repository?>(nil)

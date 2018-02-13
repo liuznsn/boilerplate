@@ -13,7 +13,6 @@ import RxDataSources
 
 class SearchReposViewController: UIViewController,UITableViewDelegate {
 
-    private let dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, Repository>>()
     private let disposeBag = DisposeBag()
     private var tableView: UITableView!
     private var searchController: UISearchController!
@@ -27,39 +26,41 @@ class SearchReposViewController: UIViewController,UITableViewDelegate {
     }
     
     func bindRx() {
-        dataSource.configureCell = { dataSource, tableView, indexPath, repository in
-            let cell = RepoCell(frame: CGRect(origin: CGPoint.init(x: 0, y: 0), size: CGSize(width: UIScreen.main.bounds.width, height: 100)))
-            
-            cell.configure(title: repository.fullName ,
-                           description: repository.descriptionField,
-                           language: repository.language,
-                           stars:  "\(repository.stargazersCount) stars")
-            return cell
-        }
+        
+        let dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, Repository>>(
+            configureCell: { dataSource, tableView, indexPath, repository in
+                let cell = RepoCell(frame: CGRect(origin: CGPoint.init(x: 0, y: 0), size: CGSize(width: UIScreen.main.bounds.width, height: 100)))
+                
+                cell.configure(title: repository.fullName ,
+                               description: repository.descriptionField,
+                               language: repository.language,
+                               stars:  "\(repository.stargazersCount) stars")
+                return cell
+        })
         
         self.searchController.searchBar.rx.text
-            .bindTo(viewModel.inputs.searchKeyword)
-            .addDisposableTo(disposeBag)
+            .bind(to:viewModel.inputs.searchKeyword)
+            .disposed(by: disposeBag)
         
         self.tableView.rx.reachedBottom
-            .bindTo(viewModel.inputs.loadNextPageTrigger)
-            .addDisposableTo(disposeBag)
+            .bind(to:viewModel.inputs.loadNextPageTrigger)
+            .disposed(by: disposeBag)
         
         self.tableView.rx.itemSelected
             .map { (at: $0, animated: true) }
             .subscribe(onNext: tableView.deselectRow)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         
         self.viewModel.outputs.elements.asDriver()
             .map { [SectionModel(model: "Repositories", items: $0)] }
             .drive(self.tableView.rx.items(dataSource: dataSource))
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         self.viewModel.isLoading
             .drive()
             // .drive(isLoading(for: self.view))
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         self.tableView.rx.contentOffset
             .subscribe { _ in
@@ -67,18 +68,18 @@ class SearchReposViewController: UIViewController,UITableViewDelegate {
                     _ = self.searchController.searchBar.resignFirstResponder()
                 }
             }
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         self.tableView.rx.modelSelected(Repository.self)
             .subscribe(onNext: { repo in
                 self.viewModel.inputs.tapped(repository: repo)
-            }).addDisposableTo(disposeBag)
+            }).disposed(by: disposeBag)
         
         self.viewModel.outputs.selectedViewModel.drive(onNext: { repoViewModel in
             let repoViewController = RepoViewController()
             repoViewController.viewModel = repoViewModel
             self.navigationController?.pushViewController(repoViewController, animated: true)
-        }).addDisposableTo(disposeBag)
+        }).disposed(by: disposeBag)
 
     }
 
@@ -87,7 +88,7 @@ class SearchReposViewController: UIViewController,UITableViewDelegate {
         
         self.tableView = UITableView(frame: UIScreen.main.bounds)
         self.tableView.rx.setDelegate(self)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         self.view = self.tableView
         self.tableView.estimatedRowHeight = 100.0;
