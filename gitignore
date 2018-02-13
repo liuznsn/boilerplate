@@ -1,2 +1,7 @@
 Pods/
 xcuserdata/
+project.xcworkspace
+.DS_Store
+Gemfile
+Gemfile.lock
+*.sketch
