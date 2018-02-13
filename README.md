@@ -4,11 +4,11 @@
 
 # boilerplate
 
-Swift 3+ and Using MVVM architecture(Rxswfit + Moya) to implement Github client demo.
+Swift 4 and Using MVVM architecture(Rxswfit + Moya) to implement Github client demo.
 
 ## Features
 
-*  Swift 3+
+*  Swift 4
 *  Rxswift
 *  Moya (networking layer)
 *  MVVM architecture implement
@@ -25,7 +25,7 @@ pod install
 ## Requirements
 
 * iOS 8.0+ / Mac OS X 10.9+
-* Xcode 8.0+
+* Xcode 9.0+
 
 ## Licence
 MIT
