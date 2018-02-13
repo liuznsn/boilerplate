@@ -43,7 +43,6 @@ public class API:GitHubAPI {
                .mapObject(Authorizations.self)
                .observeOn(MainScheduler.instance)
                .flatMap({ author -> Single<Bool> in
-                    dump(author)
                     if author.token == nil{
                         return Single.just(false)
                     } else{
