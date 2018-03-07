@@ -14,7 +14,7 @@ Swift 4 and Using MVVM architecture(Rxswfit + Moya) to implement Github client d
 *  MVVM architecture implement
 *  TableView Pagination 
 *  RxDataSources
-*  ObjectMapper (Object mapping)
+*  RxCodable (Object mapping)
 
 ## Setup
 
