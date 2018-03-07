@@ -36,10 +36,11 @@ class TrendingViewController: UIViewController,UITableViewDelegate,IndicatorInfo
             configureCell: { dataSource, tableView, indexPath, repository in
                 let cell = RepoCell(frame: CGRect(origin: CGPoint.init(x: 0, y: 0), size: CGSize(width: UIScreen.main.bounds.width, height: 100)))
                 
-                cell.configure(title: repository.fullName ,
-                               description: repository.descriptionField,
-                               language: repository.language,
-                               stars:  "\(repository.stargazersCount) stars")
+                cell.configure(title: repository.fullName! ,
+                               description: repository.descriptionField == nil ?  "" : repository.descriptionField!,
+                               language: repository.language!,
+                               stars:  "\(repository.stargazersCount!) stars")
+                
                 return cell
         })
         

@@ -10,12 +10,11 @@ target 'Boilerplate' do
     pod 'RxBlocking', '~> 4.1'
     pod 'RxCocoa', '~> 4.1'
     pod 'RxSwift', '~> 4.0'
-    pod 'Moya-ObjectMapper/RxSwift'
-    #pod 'Moya-ObjectMapper', '~> 2.5'
     pod 'RxOptional', '~> 3.3'
     #  pod 'Traits', '~> 0.1'
     pod 'RxDataSources', '~> 3.0'
-    
+    pod 'RxCodable'
+
     
     pod 'XLPagerTabStrip', '~> 8.0'
     pod 'SVProgressHUD'

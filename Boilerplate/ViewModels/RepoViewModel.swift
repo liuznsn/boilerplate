@@ -9,6 +9,7 @@
 import Foundation
 import RxCocoa
 import RxSwift
+import RxCodable
 
 public protocol RepoViewModelInputs {
 }
@@ -35,23 +36,22 @@ public class RepoViewModel: RepoViewModelType, RepoViewModelInputs, RepoViewMode
         let Loading = ActivityIndicator()
         self.isLoading = Loading.asDriver()
 
-        
         self.repo = repo
         
-        let lastThreePullsObservable = GithubProvider.rx.request(GitHub.Pulls(fullname: repo.fullName))
-            .mapArray(Pull.self)
+        let lastThreePullsObservable = GithubProvider.rx.request(GitHub.Pulls(fullname: repo.fullName!))
+            .map([Pulls].self)
             .trackActivity(Loading)
             .asDriver(onErrorJustReturn: [])
-            .map { (pulls:[Pull]) -> RepositorySectionViewModel in
+            .map { (pulls:[Pulls]) -> RepositorySectionViewModel in
                 let itemsObjs = Array(pulls.prefix(3))
-                let items = itemsObjs.map{ (pull:Pull) -> RepositoryCellViewModel in
+                let items = itemsObjs.map{ (pull:Pulls) -> RepositoryCellViewModel in
                     return RepositoryCellViewModel(title:pull.title! , subtitle: "by " + (pull.user?.login)!)
                 }
                 return RepositorySectionViewModel(header: "Last three pull requests", items: items)
         }
         
-        let lastThreeIssuesObservable = GithubProvider.rx.request(GitHub.Issues(fullname: repo.fullName))
-            .mapArray(Issues.self)
+        let lastThreeIssuesObservable = GithubProvider.rx.request(GitHub.Issues(fullname: repo.fullName!))
+            .map([Issues].self)
             .trackActivity(Loading)
             .asDriver(onErrorJustReturn: [])
             .map { (issues:[Issues]) -> RepositorySectionViewModel in
@@ -62,16 +62,18 @@ public class RepoViewModel: RepoViewModelType, RepoViewModelInputs, RepoViewMode
                 return RepositorySectionViewModel(header: "Last three issues", items: items)
         }
         
-        let lastThreeCommitsObservable = GithubProvider.rx.request(GitHub.Commits(fullname: repo.fullName))
-            .mapArray(Commits.self)
+        let lastThreeCommitsObservable = GithubProvider.rx.request(GitHub.Commits(fullname: repo.fullName!))
+            .map([Commits].self)
             .trackActivity(Loading)
             .asDriver(onErrorJustReturn: [])
             .map { (commits:[Commits]) -> RepositorySectionViewModel in
+                                
                 let itemsObjs = Array(commits.prefix(3))
                 let items = itemsObjs.map{ (commit:Commits) -> RepositoryCellViewModel in
                     
                     return RepositoryCellViewModel(title:(commit.commit?.message)!,
-                                                  subtitle: "by " + (commit.commit?.author?.name == nil ? "" : (commit.commit?.author?.name)!))
+                                                  subtitle: "by " + (commit.commit?.author?.name)!)
+    
                 }
                 return RepositorySectionViewModel(header: "Last three commits", items: items)
         }
@@ -79,21 +81,19 @@ public class RepoViewModel: RepoViewModelType, RepoViewModelInputs, RepoViewMode
         self.dataObservable = Driver.zip(lastThreePullsObservable, lastThreeIssuesObservable, lastThreeCommitsObservable) {
             [$0, $1, $2].filter { !$0.items.isEmpty }
         }
-
+ 
         _ = self.dataObservable
             .debug()
             .trackActivity(Loading)
             .asDriver(onErrorJustReturn: [])
-    
-        
     }
     
     public var isLoading: Driver<Bool>
     public var repo:Repository
-    public var fullName: String { return repo.fullName }
-    public var description: String { return repo.descriptionField }
-    public var forksCounts: String { return String( repo.forksCount ) }
-    public var starsCount: String { return String( repo.stargazersCount ) }
+    public var fullName: String { return repo.fullName! }
+    public var description: String { return "\(repo.descriptionField == nil ? "": repo.descriptionField!)" }
+    public var forksCounts: String { return "\(repo.forksCount!)" }
+    public var starsCount: String { return "\(repo.stargazersCount!)" }
     public var dataObservable:Driver<[RepositorySectionViewModel]>
     public var inputs: RepoViewModelInputs { return self}
     public var outputs: RepoViewModelOutputs { return self}

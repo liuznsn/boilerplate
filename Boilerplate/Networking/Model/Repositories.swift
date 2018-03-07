@@ -1,26 +1,27 @@
 //
 //	Repositories.swift
 //
-//	Create by Leo on 13/2/2017
-//	Copyright © 2017. All rights reserved.
+//	Create by Leo on 6/3/2018
 
-import Foundation 
-import ObjectMapper
+import Foundation
 
+struct Repositories : Codable {
 
-public struct Repositories :Mappable{
+	let incompleteResults : Bool?
+	let items : [Repository]?
+	let totalCount : Int?
 
-	var incompleteResults : Bool?
-	var items : [Repository]?
-	var totalCount : Int?
-
-    public init?(map: Map){}
-
-	mutating public func mapping(map: Map)
-	{
-		incompleteResults <- map["incomplete_results"]
-		items <- map["items"]
-		totalCount <- map["total_count"]
+	enum CodingKeys: String, CodingKey {
+		case incompleteResults = "incomplete_results"
+		case items = "items"
+		case totalCount = "total_count"
 	}
-    
+	init(from decoder: Decoder) throws {
+		let values = try decoder.container(keyedBy: CodingKeys.self)
+		incompleteResults = try values.decodeIfPresent(Bool.self, forKey: .incompleteResults)
+		items = try values.decodeIfPresent([Repository].self, forKey: .items)
+		totalCount = try values.decodeIfPresent(Int.self, forKey: .totalCount)
+	}
+
+
 }

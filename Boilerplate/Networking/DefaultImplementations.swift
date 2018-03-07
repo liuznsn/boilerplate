@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 import SVProgressHUD
 import Moya
-
+import RxCodable
 
 public class GitHubDefaultValidationService: GitHubValidationService {
     
@@ -40,7 +40,7 @@ public class API:GitHubAPI {
     
     public func signin(_ username: String, password: String) -> Single<Bool> {
         return GithubProvider.rx.request(GitHub.Token(username: username, password: password))
-               .mapObject(Authorizations.self)
+               .map(Authorizations.self)
                .observeOn(MainScheduler.instance)
                .flatMap({ author -> Single<Bool> in
                     if author.token == nil{
@@ -56,7 +56,7 @@ public class API:GitHubAPI {
     
     public func repositories(_ keyword:String, page:Int) -> Single<[Repository]> {
         return GithubProvider.rx.request(GitHub.RepoSearch(query: keyword,page:page))
-            .mapObject(Repositories.self)
+            .map(Repositories.self)
             .observeOn(MainScheduler.instance)
             .flatMap({ repositories -> Single<[Repository]> in
                 guard let items = repositories.items else {
@@ -69,7 +69,7 @@ public class API:GitHubAPI {
 
     public func recentRepositories(_ language:String, page:Int) -> Single<[Repository]> {
         return GithubProvider.rx.request(GitHub.TrendingReposSinceLastWeek(language: language, page: page))
-            .mapObject(Repositories.self)
+            .map(Repositories.self)
             .observeOn(MainScheduler.instance)
             .flatMap({ repositories -> Single<[Repository]> in
                 guard let items = repositories.items else {
@@ -81,7 +81,7 @@ public class API:GitHubAPI {
 
     public func profile() -> Single<User> {
         return GithubProvider.rx.request(GitHub.User)
-            .mapObject(User.self)
+            .map(User.self)
             .observeOn(MainScheduler.instance)
             .flatMap({ user -> Single<User> in
                  return Single.just(user)

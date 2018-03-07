@@ -1,22 +1,22 @@
 //
 //	Comment.swift
 //
-//	Create by Leo on 15/2/2017
-//	Copyright © 2017. All rights reserved.
+//	Create by Leo on 7/3/2018
 
 import Foundation
-import ObjectMapper
+
+struct Comment : Codable {
+
+	let href : String?
 
 
-public struct Comment : Mappable{
-    
-    var href : String?
-    
-    
-    public init?(map: Map){}
-    public mutating func mapping(map: Map)
-    {
-        href <- map["href"]
-        
-    }
+	enum CodingKeys: String, CodingKey {
+		case href = "href"
+	}
+	init(from decoder: Decoder) throws {
+		let values = try decoder.container(keyedBy: CodingKeys.self)
+		href = try values.decodeIfPresent(String.self, forKey: .href)
+	}
+
+
 }

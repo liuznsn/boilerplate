@@ -1,63 +1,79 @@
 //
 //	Author.swift
 //
-//	Create by Leo on 15/2/2017
-//	Copyright © 2017. All rights reserved.
-//	Model file generated using JSONExport: https://github.com/Ahmed-Ali/JSONExport
+//	Create by Leo on 7/3/2018
 
 import Foundation
-import ObjectMapper
+
+struct Author : Codable {
+
+	let avatarUrl : String?
+	let eventsUrl : String?
+	let followersUrl : String?
+	let followingUrl : String?
+	let gistsUrl : String?
+	let gravatarId : String?
+	let htmlUrl : String?
+	let id : Int?
+	let login : String?
+	let organizationsUrl : String?
+	let receivedEventsUrl : String?
+	let reposUrl : String?
+	let siteAdmin : Bool?
+	let starredUrl : String?
+	let subscriptionsUrl : String?
+	let type : String?
+	let url : String?
+	let date : String?
+	let email : String?
+	let name : String?
 
 
-public struct Author : Mappable{
-    
-    var avatarUrl : String?
-    var eventsUrl : String?
-    var followersUrl : String?
-    var followingUrl : String?
-    var gistsUrl : String?
-    var gravatarId : String?
-    var htmlUrl : String?
-    var id : Int?
-    var login : String = ""
-    var organizationsUrl : String?
-    var receivedEventsUrl : String?
-    var reposUrl : String?
-    var siteAdmin : Bool?
-    var starredUrl : String?
-    var subscriptionsUrl : String?
-    var type : String?
-    var url : String?
-    var date : String?
-    var email : String?
-    var name : String = ""
-    
-    
-    public init?(map: Map){}
-    public mutating func mapping(map: Map)
-    {
-        avatarUrl <- map["avatar_url"]
-        eventsUrl <- map["events_url"]
-        followersUrl <- map["followers_url"]
-        followingUrl <- map["following_url"]
-        gistsUrl <- map["gists_url"]
-        gravatarId <- map["gravatar_id"]
-        htmlUrl <- map["html_url"]
-        id <- map["id"]
-        login <- map["login"]
-        organizationsUrl <- map["organizations_url"]
-        receivedEventsUrl <- map["received_events_url"]
-        reposUrl <- map["repos_url"]
-        siteAdmin <- map["site_admin"]
-        starredUrl <- map["starred_url"]
-        subscriptionsUrl <- map["subscriptions_url"]
-        type <- map["type"]
-        url <- map["url"]
-        date <- map["date"]
-        email <- map["email"]
-        name <- map["name"]
-        
-    }
-    
+	enum CodingKeys: String, CodingKey {
+		case avatarUrl = "avatar_url"
+		case eventsUrl = "events_url"
+		case followersUrl = "followers_url"
+		case followingUrl = "following_url"
+		case gistsUrl = "gists_url"
+		case gravatarId = "gravatar_id"
+		case htmlUrl = "html_url"
+		case id = "id"
+		case login = "login"
+		case organizationsUrl = "organizations_url"
+		case receivedEventsUrl = "received_events_url"
+		case reposUrl = "repos_url"
+		case siteAdmin = "site_admin"
+		case starredUrl = "starred_url"
+		case subscriptionsUrl = "subscriptions_url"
+		case type = "type"
+		case url = "url"
+		case date = "date"
+		case email = "email"
+		case name = "name"
+	}
+	init(from decoder: Decoder) throws {
+		let values = try decoder.container(keyedBy: CodingKeys.self)
+		avatarUrl = try values.decodeIfPresent(String.self, forKey: .avatarUrl)
+		eventsUrl = try values.decodeIfPresent(String.self, forKey: .eventsUrl)
+		followersUrl = try values.decodeIfPresent(String.self, forKey: .followersUrl)
+		followingUrl = try values.decodeIfPresent(String.self, forKey: .followingUrl)
+		gistsUrl = try values.decodeIfPresent(String.self, forKey: .gistsUrl)
+		gravatarId = try values.decodeIfPresent(String.self, forKey: .gravatarId)
+		htmlUrl = try values.decodeIfPresent(String.self, forKey: .htmlUrl)
+		id = try values.decodeIfPresent(Int.self, forKey: .id)
+		login = try values.decodeIfPresent(String.self, forKey: .login)
+		organizationsUrl = try values.decodeIfPresent(String.self, forKey: .organizationsUrl)
+		receivedEventsUrl = try values.decodeIfPresent(String.self, forKey: .receivedEventsUrl)
+		reposUrl = try values.decodeIfPresent(String.self, forKey: .reposUrl)
+		siteAdmin = try values.decodeIfPresent(Bool.self, forKey: .siteAdmin)
+		starredUrl = try values.decodeIfPresent(String.self, forKey: .starredUrl)
+		subscriptionsUrl = try values.decodeIfPresent(String.self, forKey: .subscriptionsUrl)
+		type = try values.decodeIfPresent(String.self, forKey: .type)
+		url = try values.decodeIfPresent(String.self, forKey: .url)
+		date = try values.decodeIfPresent(String.self, forKey: .date)
+		email = try values.decodeIfPresent(String.self, forKey: .email)
+		name = try values.decodeIfPresent(String.self, forKey: .name)
+	}
+
 
 }

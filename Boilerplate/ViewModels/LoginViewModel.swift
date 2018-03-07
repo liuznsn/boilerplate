@@ -10,7 +10,6 @@ import RxCocoa
 import RxSwift
 import Result
 import Moya
-import Moya_ObjectMapper
 import RxOptional
 import RxDataSources
 

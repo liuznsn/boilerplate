@@ -1,45 +1,21 @@
 //
-//  Authorizations.swift
-//  Boilerplate
+//	Authorizations.swift
 //
-//  Created by Leo on 2017/2/8.
-//  Copyright © 2017年 Leo. All rights reserved.
-//
+//	Create by Leo on 6/3/2018
 
 import Foundation
-import ObjectMapper
 
-public struct Authorizations:Mappable{
-    
-    var app : App?
-    var createdAt : String?
-    var fingerprint : AnyObject?
-    var hashedToken : String?
-    var id : Int?
-    var note : String?
-    var noteUrl : AnyObject?
-    var scopes : [String]?
-    var token : String?
-    var tokenLastEight : String?
-    var updatedAt : String?
-    var url : String?
+struct Authorizations : Codable {
 
-    public init?(map: Map){}
-    
-    mutating public func mapping(map: Map)
-    {
-        app <- map["app"]
-        createdAt <- map["created_at"]
-        fingerprint <- map["fingerprint"]
-        hashedToken <- map["hashed_token"]
-        id <- map["id"]
-        note <- map["note"]
-        noteUrl <- map["note_url"]
-        scopes <- map["scopes"]
-        token <- map["token"]
-        tokenLastEight <- map["token_last_eight"]
-        updatedAt <- map["updated_at"]
-        url <- map["url"]
-    }
+	let token : String?
+
+	enum CodingKeys: String, CodingKey {
+		case token = "token"
+	}
+	init(from decoder: Decoder) throws {
+		let values = try decoder.container(keyedBy: CodingKeys.self)
+		token = try values.decodeIfPresent(String.self, forKey: .token)
+	}
+
 
 }

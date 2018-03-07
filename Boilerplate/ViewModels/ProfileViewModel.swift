@@ -17,7 +17,7 @@ public protocol ProfileViewModelInputs {
 }
 
 public protocol ProfileViewModelOutputs {
-    var profileObservable: Driver<[ProfileSectionModel]> { get }
+    var profileObservable: Observable<[ProfileSectionModel]> { get }
 }
 
 public protocol ProfileViewModelType {
@@ -33,32 +33,24 @@ public class ProfileViewModel: ProfileViewModelType, ProfileViewModelInputs, Pro
         
         let Loading = ActivityIndicator()
         self.isLoading = Loading.asDriver()
-
-        self.profileObservable = Driver.empty()
-        
+       
         self.profileObservable = API.sharedAPI.profile()
             .trackActivity(Loading)
-            .asDriver(onErrorJustReturn: User())
-            .flatMap{ user -> Driver<[ProfileSectionModel]> in
-                
-                guard let _ = user.login else {
-                    return Driver.just([])
-                }
+            .flatMap{ user -> Observable<[ProfileSectionModel]> in
                 
                 let profileSectionModel = ProfileSectionModel(model: "", items:
                     [Profile.avatar(title: "avatarUrl", avatarUrl: user.avatarUrl!)
-                    ,Profile.detail(title: "id", detail: user.login!)
-                    ,Profile.detail(title: "createdAt", detail: user.createdAt!)]
+                        ,Profile.detail(title: "id", detail: user.login!)
+                    ]
                 )
                 
-                return Driver.just([profileSectionModel])
+                return Observable.just([profileSectionModel])
             }
-        
         
     }
     
     public var isLoading: Driver<Bool>
-    public var profileObservable: Driver<[ProfileSectionModel]>
+    public var profileObservable: Observable<[ProfileSectionModel]>
     public var inputs: ProfileViewModelInputs { return self}
     public var outputs: ProfileViewModelOutputs { return self}
 }

@@ -1,28 +1,31 @@
 //
 //	PullRequest.swift
 //
-//	Create by Leo on 15/2/2017
-//	Copyright © 2017. All rights reserved.
+//	Create by Leo on 6/3/2018
 
 import Foundation
-import ObjectMapper
 
-public struct PullRequest : Mappable{
-    
-    var diffUrl : String?
-    var htmlUrl : String?
-    var patchUrl : String?
-    var url : String?
-    
-    
-    public init?(map: Map){}
-    public mutating func mapping(map: Map)
-    {
-        diffUrl <- map["diff_url"]
-        htmlUrl <- map["html_url"]
-        patchUrl <- map["patch_url"]
-        url <- map["url"]
-        
-    }
-    
+struct PullRequest : Codable {
+
+	let diffUrl : String?
+	let htmlUrl : String?
+	let patchUrl : String?
+	let url : String?
+
+
+	enum CodingKeys: String, CodingKey {
+		case diffUrl = "diff_url"
+		case htmlUrl = "html_url"
+		case patchUrl = "patch_url"
+		case url = "url"
+	}
+	init(from decoder: Decoder) throws {
+		let values = try decoder.container(keyedBy: CodingKeys.self)
+		diffUrl = try values.decodeIfPresent(String.self, forKey: .diffUrl)
+		htmlUrl = try values.decodeIfPresent(String.self, forKey: .htmlUrl)
+		patchUrl = try values.decodeIfPresent(String.self, forKey: .patchUrl)
+		url = try values.decodeIfPresent(String.self, forKey: .url)
+	}
+
+
 }
