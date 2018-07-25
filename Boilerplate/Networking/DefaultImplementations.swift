@@ -10,7 +10,6 @@ import RxSwift
 import RxCocoa
 import SVProgressHUD
 import Moya
-import RxCodable
 
 public class GitHubDefaultValidationService: GitHubValidationService {
     

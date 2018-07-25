@@ -14,10 +14,6 @@ PODS:
     - RxSwift (~> 4.0)
   - RxCocoa (4.1.1):
     - RxSwift (~> 4.0)
-  - RxCodable (0.3.0):
-    - RxCodable/Core (= 0.3.0)
-  - RxCodable/Core (0.3.0):
-    - RxSwift (>= 4.0.0-beta.0)
   - RxDataSources (3.0.2):
     - Differentiator (~> 3.0)
     - RxCocoa (~> 4.0)
@@ -36,21 +32,39 @@ PODS:
   - XLPagerTabStrip (8.0.0)
 
 DEPENDENCIES:
-  - Moya/RxSwift (~> 10.0)
-  - Nimble (~> 7.0)
-  - Quick (~> 1.2)
-  - Result (~> 3.2)
-  - RxBlocking (~> 4.1)
-  - RxCocoa (~> 4.1)
-  - RxCodable
-  - RxDataSources (~> 3.0)
-  - RxOptional (~> 3.3)
-  - RxSwift (~> 4.0)
-  - RxTest (~> 4.1)
-  - SDWebImage (~> 4.3)
+  - Moya/RxSwift
+  - Nimble
+  - Quick
+  - Result
+  - RxBlocking
+  - RxCocoa
+  - RxDataSources
+  - RxOptional
+  - RxSwift
+  - RxTest
+  - SDWebImage
   - SVProgressHUD
-  - SwiftIconFont (~> 2.7)
-  - XLPagerTabStrip (~> 8.0)
+  - SwiftIconFont
+  - XLPagerTabStrip
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - Alamofire
+    - Differentiator
+    - Moya
+    - Nimble
+    - Quick
+    - Result
+    - RxBlocking
+    - RxCocoa
+    - RxDataSources
+    - RxOptional
+    - RxSwift
+    - RxTest
+    - SDWebImage
+    - SVProgressHUD
+    - SwiftIconFont
+    - XLPagerTabStrip
 
 SPEC CHECKSUMS:
   Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
@@ -61,7 +75,6 @@ SPEC CHECKSUMS:
   Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
   RxBlocking: 22e7d7b86a1c0c42164a30d64f56f97128b4ffab
   RxCocoa: fd0862fd2df95fa55562ad28ffd2522c25eb4a85
-  RxCodable: 12d41ab0ba58f455cfc83965fcc927ac4bad3e7f
   RxDataSources: cb7c31e652a87ebb919da45f716bbb87b3765f6b
   RxOptional: e5448d3e21024489e07c31f6a262f2b50c975367
   RxSwift: fd680d75283beb5e2559486f3c0ff852f0d35334
@@ -71,6 +84,6 @@ SPEC CHECKSUMS:
   SwiftIconFont: ebd8ee931a1e7072b61a87aec53f3a0786ef7f2b
   XLPagerTabStrip: d1ab378af0923320ec0b5eab11d7b2f803d31261
 
-PODFILE CHECKSUM: 281d9cac28fb8fa5f752c04efb92e9fd4a35fe32
+PODFILE CHECKSUM: cf5000b4e54aa42ad6183b5711b220c6782ff273
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.0

@@ -43,10 +43,9 @@ public class SearchReposViewModel: SearchReposViewModelType, SearchReposViewMode
         let isLoading = ActivityIndicator()
         self.isLoading = isLoading.asDriver()
 
-        
         let keywordRequest = self.searchKeyword.asDriver(onErrorJustReturn: "")
             .throttle(0.3)
-            .distinctUntilChanged()
+            .distinctUntilChanged({ $0 == $1 })
             .flatMap { query -> Driver<[Repository]> in
                 self.pageIndex = 1;
                 self.elements.value = []
