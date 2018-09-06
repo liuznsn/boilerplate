@@ -14,7 +14,7 @@ import XLPagerTabStrip
 
 class TrendingViewController: UIViewController,UITableViewDelegate,IndicatorInfoProvider {
 
-    private var viewModel:TrendingViewModel!
+    var viewModel:TrendingViewModel!
     private let disposeBag = DisposeBag()
     private var tableView: UITableView!
     private var searchController: UISearchController!

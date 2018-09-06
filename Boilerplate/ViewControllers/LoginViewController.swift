@@ -19,9 +19,8 @@ typealias TitleSectionModel = SectionModel<String, LoginForm>
 
 class LoginViewController: UIViewController,UITableViewDelegate {
 
-//var dataSource = RxTableViewSectionedReloadDataSource<TitleSectionModel>
    var dataSource:RxTableViewSectionedReloadDataSource<TitleSectionModel>!
-   private let viewModel = LoginViewModel()
+   var viewModel:LoginViewModel!
    private let disposeBag = DisposeBag()
    private var tableView: UITableView!
    private var loginButton:UIBarButtonItem!
@@ -93,17 +92,7 @@ class LoginViewController: UIViewController,UITableViewDelegate {
             .drive()
             .disposed(by: disposeBag)
         
-        self.viewModel.outputs.signedIn
-            .drive(onNext: { signedIn in
-                if signedIn ==  true {
-                    self.navigationController?.dismiss(animated: true, completion: nil)
-                } else {
-                    SVProgressHUD.showError(withStatus: "Login Error")
-                }
-            }).disposed(by: disposeBag)
-        
         self.viewModel.isLoading
-            //.drive()
             .drive(isLoading(for: self.view))
             .disposed(by: disposeBag)
     }

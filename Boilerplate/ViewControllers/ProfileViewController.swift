@@ -25,10 +25,6 @@ class AvatarTableViewCell: UITableViewCell {
         contentImageView.sd_setIndicatorStyle(.gray)
         
         self.addSubview(contentImageView)
-       
-        
-
-
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -40,19 +36,10 @@ class AvatarTableViewCell: UITableViewCell {
             contentImageView.sd_setImage(with: URL(string:self.contentImageUrl!)) { (_, _, _, _) in
                 self.contentImageView.center = self.center
             }
-            /*
-            contentImageView.sd_setImage(with:  URL(string:self.contentImageUrl!) ) { [weak self] _ in
-                 self?.contentImageView.center = (self?.center)!
-                
-            }
-            */
         }
     }
     
 }
-
-
-
 
 public enum Profile {
     case avatar(title: String, avatarUrl: String)
@@ -104,14 +91,9 @@ class ProfileViewController: UIViewController, UITableViewDelegate {
         self.title = "Profile"
         
         self.tableView = UITableView(frame: UIScreen.main.bounds)
-        /*
-        self.tableView.estimatedRowHeight = 100.0;
-        self.tableView.rowHeight = UITableViewAutomaticDimension;
-        */
         self.tableView.rx.setDelegate(self).disposed(by: disposeBag)
         self.tableView.dataSource = nil
       
-        
         self.view = self.tableView
       
         self.tableView.isScrollEnabled = false
@@ -121,7 +103,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate {
         definesPresentationContext = true
        
     }
-    
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0{

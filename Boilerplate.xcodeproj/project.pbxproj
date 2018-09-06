@@ -33,6 +33,11 @@
 		61BD45851E540012000E93C6 /* Commit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BD45841E540011000E93C6 /* Commit.swift */; };
 		61BD458B1E54020D000E93C6 /* Author.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BD458A1E54020D000E93C6 /* Author.swift */; };
 		61BD458D1E5402F4000E93C6 /* Commits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BD458C1E5402F4000E93C6 /* Commits.swift */; };
+		61C74C562140C73400439A71 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C74C552140C73400439A71 /* AppCoordinator.swift */; };
+		61C74C582140C91200439A71 /* TrendingViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C74C572140C91200439A71 /* TrendingViewCoordinator.swift */; };
+		61C74C5B2140D45000439A71 /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C74C5A2140D45000439A71 /* BaseCoordinator.swift */; };
+		61C74C5D2140D51600439A71 /* RootTabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C74C5C2140D51600439A71 /* RootTabBarCoordinator.swift */; };
+		61C74C5F2140D72B00439A71 /* LoginViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C74C5E2140D72B00439A71 /* LoginViewCoordinator.swift */; };
 		61CD9EDA1E4AB76A001FE7A2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61CD9ED91E4AB76A001FE7A2 /* AppDelegate.swift */; };
 		61CD9EDF1E4AB76A001FE7A2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 61CD9EDD1E4AB76A001FE7A2 /* Main.storyboard */; };
 		61CD9EE11E4AB76A001FE7A2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 61CD9EE01E4AB76A001FE7A2 /* Assets.xcassets */; };
@@ -99,6 +104,11 @@
 		61BD45841E540011000E93C6 /* Commit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Commit.swift; sourceTree = "<group>"; };
 		61BD458A1E54020D000E93C6 /* Author.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Author.swift; sourceTree = "<group>"; };
 		61BD458C1E5402F4000E93C6 /* Commits.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Commits.swift; sourceTree = "<group>"; };
+		61C74C552140C73400439A71 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppCoordinator.swift; path = ../../../Lyrics/Lyrics/AppCoordinator.swift; sourceTree = "<group>"; };
+		61C74C572140C91200439A71 /* TrendingViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingViewCoordinator.swift; sourceTree = "<group>"; };
+		61C74C5A2140D45000439A71 /* BaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
+		61C74C5C2140D51600439A71 /* RootTabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabBarCoordinator.swift; sourceTree = "<group>"; };
+		61C74C5E2140D72B00439A71 /* LoginViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewCoordinator.swift; sourceTree = "<group>"; };
 		61CD9ED61E4AB76A001FE7A2 /* Boilerplate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Boilerplate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		61CD9ED91E4AB76A001FE7A2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		61CD9EDE1E4AB76A001FE7A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -171,6 +181,34 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		61C74C512140C4CA00439A71 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				61C74C5A2140D45000439A71 /* BaseCoordinator.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		61C74C542140C69C00439A71 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				61CD9ED91E4AB76A001FE7A2 /* AppDelegate.swift */,
+				61C74C552140C73400439A71 /* AppCoordinator.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		61C74C592140D40200439A71 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				61C74C5E2140D72B00439A71 /* LoginViewCoordinator.swift */,
+				61C74C5C2140D51600439A71 /* RootTabBarCoordinator.swift */,
+				61C74C572140C91200439A71 /* TrendingViewCoordinator.swift */,
+				61C74C512140C4CA00439A71 /* Base */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
 		61CD9ECD1E4AB76A001FE7A2 = {
 			isa = PBXGroup;
 			children = (
@@ -196,11 +234,11 @@
 		61CD9ED81E4AB76A001FE7A2 /* Boilerplate */ = {
 			isa = PBXGroup;
 			children = (
+				61C74C542140C69C00439A71 /* Application */,
 				61D4C33D1E543757008CF509 /* View */,
 				61CD9F0D1E4AE538001FE7A2 /* Networking */,
 				61CD9F151E4B0437001FE7A2 /* ViewControllers */,
 				61CD9F161E4B0486001FE7A2 /* ViewModels */,
-				61CD9ED91E4AB76A001FE7A2 /* AppDelegate.swift */,
 				61CD9EE01E4AB76A001FE7A2 /* Assets.xcassets */,
 				61CD9EE51E4AB76A001FE7A2 /* Info.plist */,
 				61CD9EE21E4AB76A001FE7A2 /* LaunchScreen.storyboard */,
@@ -267,6 +305,7 @@
 		61CD9F151E4B0437001FE7A2 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				61C74C592140D40200439A71 /* Coordinator */,
 				61CD9F131E4AEB38001FE7A2 /* LoginViewController.swift */,
 				61934CB31E4DC4CB00BD9D5F /* SearchReposViewController.swift */,
 				61BD456E1E52AFE1000E93C6 /* TrendingViewController.swift */,
@@ -584,6 +623,7 @@
 			files = (
 				615AAE29204E646F00D2757D /* Pulls.swift in Sources */,
 				61684E711E5156F7007E0AA9 /* Owner.swift in Sources */,
+				61C74C562140C73400439A71 /* AppCoordinator.swift in Sources */,
 				61BD457D1E53F19D000E93C6 /* Comment.swift in Sources */,
 				61BD456F1E52AFE2000E93C6 /* TrendingViewController.swift in Sources */,
 				61BD45731E52DBB7000E93C6 /* RepoViewController.swift in Sources */,
@@ -594,10 +634,13 @@
 				61BD45751E52DBE3000E93C6 /* RepoViewModel.swift in Sources */,
 				61CD9F091E4ABD60001FE7A2 /* GitHubAPI.swift in Sources */,
 				61684E701E5156F7007E0AA9 /* Repository.swift in Sources */,
+				61C74C5D2140D51600439A71 /* RootTabBarCoordinator.swift in Sources */,
 				61BD457F1E53F550000E93C6 /* Issues.swift in Sources */,
 				61684E741E51604E007E0AA9 /* SearchReposViewModel.swift in Sources */,
+				61C74C582140C91200439A71 /* TrendingViewCoordinator.swift in Sources */,
 				61CD9EDA1E4AB76A001FE7A2 /* AppDelegate.swift in Sources */,
 				61D4C3481E5599C3008CF509 /* SegmentedViewController.swift in Sources */,
+				61C74C5F2140D72B00439A71 /* LoginViewCoordinator.swift in Sources */,
 				6158C1351E6528BE00D983DB /* StubResponse.swift in Sources */,
 				61BD458D1E5402F4000E93C6 /* Commits.swift in Sources */,
 				61D4C33F1E543799008CF509 /* RepoCell.swift in Sources */,
@@ -605,6 +648,7 @@
 				61CD9F101E4AE5AF001FE7A2 /* Authorizations.swift in Sources */,
 				61BD45811E53F617000E93C6 /* PullRequest.swift in Sources */,
 				61DA91751E56CA04006FE42F /* ProfileViewController.swift in Sources */,
+				61C74C5B2140D45000439A71 /* BaseCoordinator.swift in Sources */,
 				61D4C3461E554EE5008CF509 /* Environment.swift in Sources */,
 				61934CB21E4DBC0900BD9D5F /* ActivityIndicator.swift in Sources */,
 				61BD458B1E54020D000E93C6 /* Author.swift in Sources */,

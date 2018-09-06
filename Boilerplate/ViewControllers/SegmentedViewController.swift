@@ -32,7 +32,6 @@ class SegmentedViewController: ButtonBarPagerTabStripViewController {
         settings.style.buttonBarRightContentInset = 0
         settings.style.buttonBarItemLeftRightMargin = 0
         
-    
         // Do any additional setup after loading the view.
     }
 
