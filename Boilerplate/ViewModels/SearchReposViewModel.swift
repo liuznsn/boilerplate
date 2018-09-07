@@ -20,7 +20,7 @@ public protocol SearchReposViewModelInputs {
 
 public protocol SearchReposViewModelOutputs {
     var isLoading: Driver<Bool> { get }
-    var elements:Variable<[Repository]> { get }
+    var elements:BehaviorRelay<[Repository]> { get }
     var selectedViewModel: Driver<RepoViewModel> { get }
 }
 
@@ -39,7 +39,7 @@ public class SearchReposViewModel: SearchReposViewModelType, SearchReposViewMode
         self.selectedViewModel = Driver.empty()
         self.searchKeyword = PublishSubject<String?>()
         self.loadNextPageTrigger = PublishSubject<Void>()
-        self.elements = Variable<[Repository]>([])
+        self.elements = BehaviorRelay<[Repository]>(value: [])
         let isLoading = ActivityIndicator()
         self.isLoading = isLoading.asDriver()
 
@@ -48,7 +48,7 @@ public class SearchReposViewModel: SearchReposViewModelType, SearchReposViewMode
             .distinctUntilChanged({ $0 == $1 })
             .flatMap { query -> Driver<[Repository]> in
                 self.pageIndex = 1;
-                self.elements.value = []
+                self.elements.accept([])
                 self.query = query!
                 return API.sharedAPI.repositories(query!, page: self.pageIndex)
                     .trackActivity(isLoading)
@@ -96,13 +96,13 @@ public class SearchReposViewModel: SearchReposViewModelType, SearchReposViewMode
         }
     }
     
-    let repository = Variable<Repository?>(nil)
+    let repository = BehaviorRelay<Repository?>(value: nil)
     public func tapped(repository: Repository) {
-        self.repository.value = repository
+        self.repository.accept(repository)
     }
     
     public var selectedViewModel: Driver<RepoViewModel>
-    public var elements:Variable<[Repository]>
+    public var elements:BehaviorRelay<[Repository]>
     public var isLoading: Driver<Bool>
     public var searchKeyword:PublishSubject<String?>
     public var loadNextPageTrigger:PublishSubject<Void>

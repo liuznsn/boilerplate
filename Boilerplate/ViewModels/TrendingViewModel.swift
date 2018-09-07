@@ -21,7 +21,7 @@ public protocol TrendingViewModelInputs {
 public protocol TrendingViewModelOutputs {
     var isLoading: Driver<Bool> { get }
     var moreLoading: Driver<Bool> { get }
-    var elements:Variable<[Repository]> { get }
+    var elements:BehaviorRelay<[Repository]> { get }
     var selectedViewModel: Driver<RepoViewModel> { get }
 }
 
@@ -41,7 +41,7 @@ public class TrendingViewModel: TrendingViewModelType, TrendingViewModelInputs, 
         self.selectedViewModel = Driver.empty()
         self.loadPageTrigger = PublishSubject<Void>()
         self.loadNextPageTrigger = PublishSubject<Void>()
-        self.elements = Variable<[Repository]>([])
+        self.elements = BehaviorRelay<[Repository]>(value: [])
         let Loading = ActivityIndicator()
         self.isLoading = Loading.asDriver()
         let moreLoading = ActivityIndicator()
@@ -55,7 +55,7 @@ public class TrendingViewModel: TrendingViewModelType, TrendingViewModelInputs, 
                     return Observable.empty()
                 } else {
                     self.pageIndex = 1
-                    self.elements.value.removeAll()
+                    self.elements.accept([])
                     return API.sharedAPI.recentRepositories(self.keyword, page: self.pageIndex)
                     .trackActivity(Loading)
                 }
@@ -109,10 +109,10 @@ public class TrendingViewModel: TrendingViewModelType, TrendingViewModelInputs, 
             .onNext(())
     }
     
-    let repository = Variable<Repository?>(nil)
+    let repository = BehaviorRelay<Repository?>(value: nil)
     public func tapped(indexRow: Int) {
       let repository = self.elements.value[indexRow]
-        self.repository.value = repository
+        self.repository.accept(repository)
     }
     
     public func keyword(keyword: String) {
@@ -124,7 +124,7 @@ public class TrendingViewModel: TrendingViewModelType, TrendingViewModelInputs, 
     public var loadNextPageTrigger:PublishSubject<Void>
     public var moreLoading: Driver<Bool>
     public var isLoading: Driver<Bool>
-    public var elements:Variable<[Repository]>
+    public var elements:BehaviorRelay<[Repository]>
     public var inputs: TrendingViewModelInputs { return self}
     public var outputs: TrendingViewModelOutputs { return self}
 
