@@ -26,6 +26,10 @@ struct Environment {
         return true
     }
     
+    func remove()  {
+        self.userDefaults.dictionaryRepresentation().keys.forEach(self.userDefaults.removeObject(forKey:))
+    }
+    
     private let userDefaults: UserDefaults
     
     private enum UserDefaultsKeys: String {

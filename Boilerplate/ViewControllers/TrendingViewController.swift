@@ -63,13 +63,11 @@ class TrendingViewController: UIViewController,UITableViewDelegate,IndicatorInfo
             .subscribe(onNext: tableView.deselectRow)
             .disposed(by: disposeBag)
         
-        
          self.tableView.rx.itemSelected
          .subscribe(onNext: { [weak self]indexPath in
            self?.viewModel.inputs.tapped(indexRow: indexPath.row)
          }).disposed(by: disposeBag)
  
-        
         self.viewModel.isLoading
             .do(onNext: { isLoading in
                 if isLoading {

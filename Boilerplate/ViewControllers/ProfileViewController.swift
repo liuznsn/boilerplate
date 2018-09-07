@@ -50,10 +50,11 @@ public typealias ProfileSectionModel = SectionModel<String, Profile>
 
 class ProfileViewController: UIViewController, UITableViewDelegate {
 
-    let viewMdoel = ProfileViewModel()
+    let viewModel = ProfileViewModel()
     private var tableView: UITableView!
     private let disposeBag = DisposeBag()
     private var dataSource:RxTableViewSectionedReloadDataSource<ProfileSectionModel>!
+    private var logoutButton:UIBarButtonItem!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,11 +76,31 @@ class ProfileViewController: UIViewController, UITableViewDelegate {
                 }
         })
         
-        self.viewMdoel.outputs.profileObservable
+        self.viewModel.outputs.profileObservable
         .asObservable()
             .bind(to: self.tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
+        self.viewModel.outputs.user
+            .flatMap { user -> Observable<Bool> in
+                guard user.login!.isEmpty else {
+                    return Observable.just(true)
+                }
+                return Observable.just(false)
+            }.bind(to: self.logoutButton.rx.isEnabled)
+             .disposed(by: disposeBag)
+        
+        self.logoutButton.rx.tap
+            .bind(to:self.viewModel.inputs.logoutTaps)
+            .disposed(by: disposeBag)
+
+        self.viewModel.outputs.logout
+            .drive(onNext: { isLogout in
+                let appCoordinator = AppCoordinator(window: UIApplication.shared.keyWindow!)
+                appCoordinator.start()
+                    .subscribe()
+                    .disposed(by: self.disposeBag)
+            }).disposed(by: disposeBag)
     }
 
     override func didReceiveMemoryWarning() {
@@ -90,6 +111,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate {
     func configureTableView() {
         self.title = "Profile"
         
+        self.logoutButton = UIBarButtonItem(title: "Logout", style: .done, target: nil, action: nil)
+        self.logoutButton.isEnabled = false
+        self.navigationItem.rightBarButtonItem = logoutButton
+        
         self.tableView = UITableView(frame: UIScreen.main.bounds)
         self.tableView.rx.setDelegate(self).disposed(by: disposeBag)
         self.tableView.dataSource = nil
@@ -99,9 +124,11 @@ class ProfileViewController: UIViewController, UITableViewDelegate {
         self.tableView.isScrollEnabled = false
         self.tableView.allowsSelection = false
         self.tableView.separatorStyle = .none
-        
+
         definesPresentationContext = true
-       
+        self.edgesForExtendedLayout = UIRectEdge.bottom
+        
+
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

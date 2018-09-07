@@ -48,7 +48,8 @@ class RootTabBarCoordinator: BaseCoordinator<Void> {
         
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.foregroundColor: UIColor.gray], for: .normal)
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.foregroundColor: UIColor.black], for: .selected)
-        
+        UINavigationBar.appearance().isTranslucent = false
+        UINavigationBar.appearance().backgroundColor = UIColor.white
         window.rootViewController = tabBarController
         window.makeKeyAndVisible()
         

@@ -44,6 +44,7 @@ class LoginViewController: UIViewController,UITableViewDelegate {
         })
  
         let emailTextField = UITextField()
+        emailTextField.autocapitalizationType = .none
         let passwordTextField = UITextField()
         passwordTextField.isSecureTextEntry = true
         
@@ -98,7 +99,7 @@ class LoginViewController: UIViewController,UITableViewDelegate {
     }
 
     func configureTableView() {
-        self.loginButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: nil)
+        self.loginButton = UIBarButtonItem(title: "Login", style: .done, target: nil, action: nil)
         self.loginButton.isEnabled = false
         self.navigationItem.rightBarButtonItem = loginButton
         
