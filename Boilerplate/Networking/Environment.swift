@@ -7,15 +7,27 @@
 //
 
 import Foundation
+import KeychainAccess
+import RxSwift
 
 struct Environment {
     
+    static let shared = Environment()
+    
+    let keychainService = KeychainService(identifier: Bundle.main.bundleIdentifier!)
+    
     var token: String? {
         get {
-            return self.userDefaults.value(forKey: UserDefaultsKeys.Token.rawValue) as! String?
+            return try! keychainService.get(forKey: KeychainKeys.Token.rawValue)
         }
+        
         set {
-            self.userDefaults.setValue(newValue, forKey: UserDefaultsKeys.Token.rawValue)
+            do {
+                try keychainService.set(key: KeychainKeys.Token.rawValue, value: newValue!)
+            }
+            catch let error {
+                print(error)
+            }
         }
     }
     
@@ -25,22 +37,85 @@ struct Environment {
         }
         return true
     }
-    
-    func remove()  {
-        self.userDefaults.dictionaryRepresentation().keys.forEach(self.userDefaults.removeObject(forKey:))
+
+    func isLogin() -> Observable<Bool>  {
+        return Observable<Bool>.create({(observer) -> Disposable in
+            guard let _ = try! self.keychainService.get(forKey: KeychainKeys.Token.rawValue) else {
+                observer.onNext(false)
+                observer.onCompleted()
+                return Disposables.create()
+            }
+             observer.onNext(true)
+             observer.onCompleted()
+            return Disposables.create()
+        })
+        
     }
     
-    private let userDefaults: UserDefaults
+    func remove()  {
+        self.keychainService.remove()
+    }
     
-    private enum UserDefaultsKeys: String {
+    private enum KeychainKeys: String {
         case Token = "user_auth_token"
         case Authorization = "user_auth"
     }
     
-    init(userDefaults: UserDefaults) {
-        self.userDefaults = userDefaults
+}
+
+
+class KeychainService {
+    private let keychain: Keychain
+    init(identifier: String) {
+        self.keychain = Keychain(service:identifier)
     }
-    init() {
-        self.userDefaults = UserDefaults.standard
+    func set(key: String, value: String) throws {
+        do {
+            try keychain.set(value, key: key)
+        }
+        catch let error {
+            print(error)
+        }
+    }
+    func get(forKey: String) throws -> String? {
+        
+        let value = try? keychain.get(forKey)
+        
+        return value!
+    }
+    
+    func remove() {
+        try? keychain.removeAll()
     }
 }
+
+extension Reactive where Base: KeychainService {
+    func set(key: String, value: String) -> Observable<Void> {
+        
+        return Observable<Void>.create({(observer) -> Disposable in
+            do {
+                try self.base.set(key: key, value: value)
+                observer.onCompleted()
+            } catch let error {
+                observer.onError(error)
+            }
+            
+            return Disposables.create()
+        })
+    }
+    func get(forKey: String) -> Observable<String?> {
+        return Observable<String?>.create({(observer) -> Disposable in
+            do {
+                let value = try self.base.get(forKey: forKey)
+                observer.onNext(value)
+                observer.onCompleted()
+            } catch let error {
+                observer.onError(error)
+            }
+            
+            return Disposables.create()
+        })
+    }
+}
+
+

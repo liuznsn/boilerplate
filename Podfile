@@ -14,6 +14,7 @@ target 'Boilerplate' do
     #  pod 'Traits', '~> 0.1'
     pod 'RxDataSources'
 
+    pod 'KeychainAccess', '~> 3.1.1'
     pod 'XLPagerTabStrip'
     pod 'SVProgressHUD'
     pod 'SwiftIconFont'
