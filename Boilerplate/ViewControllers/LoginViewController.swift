@@ -13,6 +13,7 @@ import SVProgressHUD
 
 enum LoginForm {
     case textfield(title: String, textfield: UITextField)
+    case loginButton()
 }
 
 typealias TitleSectionModel = SectionModel<String, LoginForm>
@@ -23,7 +24,42 @@ class LoginViewController: UIViewController,UITableViewDelegate {
    var viewModel:LoginViewModel!
    private let disposeBag = DisposeBag()
    private var tableView: UITableView!
-   private var loginButton:UIBarButtonItem!
+    
+   private lazy var loginButton: UIButton = {
+        let loginButton = UIButton()
+        loginButton.isEnabled = false
+        loginButton.backgroundColor = UIColor.red
+        loginButton.setTitle("Log In", for: .normal)
+        loginButton.setTitleColor(UIColor.init(white: 1, alpha: 0.3), for: .disabled)
+        loginButton.setTitleColor(UIColor.init(white: 1, alpha: 1), for: .normal)
+        loginButton.layer.cornerRadius = 5
+        loginButton.translatesAutoresizingMaskIntoConstraints = false
+        return loginButton
+   }()
+   
+   private lazy var cancelButton: UIBarButtonItem = {
+        let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: nil, action: nil)
+        return cancelButton
+    }()
+    
+    private lazy var emailTextField: UITextField = {
+        let textfield = UITextField()
+        textfield.frame = CGRect.zero
+        textfield.translatesAutoresizingMaskIntoConstraints = false
+        textfield.autocapitalizationType = .none
+        textfield.setBottomBorder()
+        return textfield
+    }()
+    
+    private lazy var passwordTextField: UITextField = {
+        let textfield = UITextField()
+        textfield.frame = CGRect.zero
+        textfield.translatesAutoresizingMaskIntoConstraints = false
+        textfield.isSecureTextEntry = true
+        textfield.setBottomBorder()
+        return textfield
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
@@ -34,24 +70,34 @@ class LoginViewController: UIViewController,UITableViewDelegate {
          dataSource = RxTableViewSectionedReloadDataSource<TitleSectionModel>(
             configureCell: { dataSource, tableView, indexPath, element in
                 let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "reuseIdentifier")
+                let migrate:CGFloat = 10
                 switch element {
                 case let .textfield(title, textfield):
                     textfield.placeholder = title
-                    textfield.frame = CGRect(x: 20, y: 5, width: Int(cell.frame.width - 40), height: Int(cell.frame.height - 10))
                     cell.addSubview(textfield)
+                    textfield.topAnchor(equalTo: cell.topAnchor, constant: migrate)
+                    textfield.heightAnchor(equalTo: 40)
+                    textfield.bottomAnchor(equalTo: cell.bottomAnchor, constant: -migrate)
+                    textfield.leadingAnchor(equalTo: cell.leadingAnchor, constant: migrate)
+                    textfield.trailingAnchor(equalTo: cell.trailingAnchor, constant: -migrate)
+                case .loginButton:
+                    self.loginButton.frame = CGRect.zero
+                    cell.addSubview(self.loginButton)
+                    self.loginButton.heightAnchor(equalTo: 50)
+                    self.loginButton.topAnchor(equalTo: cell.topAnchor, constant: migrate)
+                    self.loginButton.bottomAnchor(equalTo: cell.bottomAnchor, constant: -migrate)
+                    self.loginButton.leadingAnchor(equalTo: cell.leadingAnchor, constant: migrate)
+                    self.loginButton.trailingAnchor(equalTo: cell.trailingAnchor, constant: -migrate)
                 }
                 return cell
         })
  
-        let emailTextField = UITextField()
-        emailTextField.autocapitalizationType = .none
-        let passwordTextField = UITextField()
-        passwordTextField.isSecureTextEntry = true
         
         let sections = Observable.just([
             TitleSectionModel(model: "Please use Github account to login", items: [
                 LoginForm.textfield(title: "ID", textfield: emailTextField),
-                LoginForm.textfield(title: "Password", textfield: passwordTextField)
+                LoginForm.textfield(title: "Password", textfield: passwordTextField),
+                LoginForm.loginButton()
                 ]),
             ])
         
@@ -62,11 +108,14 @@ class LoginViewController: UIViewController,UITableViewDelegate {
         
         emailTextField.becomeFirstResponder()
         
+        cancelButton.rx.tap
+            .bind {
+                self.dismiss(animated: true, completion: nil)
+            }.disposed(by: disposeBag)
         
         loginButton.rx.tap
             .bind(to:self.viewModel.inputs.loginTaps)
             .disposed(by: disposeBag)
-        
         
         emailTextField.rx.text
             .bind(to:self.viewModel.inputs.email)
@@ -99,14 +148,13 @@ class LoginViewController: UIViewController,UITableViewDelegate {
     }
 
     func configureTableView() {
-        self.loginButton = UIBarButtonItem(title: "Login", style: .done, target: nil, action: nil)
-        self.loginButton.isEnabled = false
-        self.navigationItem.rightBarButtonItem = loginButton
+        //self.navigationItem.rightBarButtonItem = cancelButton
         
         self.title = "Login"
         self.tableView = UITableView(frame: UIScreen.main.bounds)
         self.tableView.register(HeaderView.self, forHeaderFooterViewReuseIdentifier: "HeaderView")
         self.tableView.rx.setDelegate(self).disposed(by: disposeBag)
+        self.tableView.separatorStyle = .none
         self.tableView.isScrollEnabled = false
         self.tableView.allowsSelection = false
         self.view = self.tableView
@@ -177,3 +225,15 @@ class HeaderView: UITableViewHeaderFooterView {
     }
 }
 
+
+extension UITextField {
+    func setBottomBorder() {
+        self.borderStyle = .none
+        self.layer.backgroundColor = UIColor.white.cgColor
+        self.layer.masksToBounds = false
+        self.layer.shadowColor = UIColor.gray.cgColor
+        self.layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
+        self.layer.shadowOpacity = 1.0
+        self.layer.shadowRadius = 0.0
+    }
+}
