@@ -14,7 +14,7 @@ public var stubJsonPath = ""
 public var GithubProvider = MoyaProvider<GitHub>(
     endpointClosure:endpointClosure,
     requestClosure:requestClosure,
-    plugins: [NetworkLoggerPlugin(verbose: false, responseDataFormatter: JSONResponseDataFormatter)]
+    plugins: [NetworkLoggerPlugin(verbose: true, responseDataFormatter: JSONResponseDataFormatter)]
 )
 
 public func JSONResponseDataFormatter(_ data: Data) -> Data {
