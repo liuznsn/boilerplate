@@ -75,19 +75,19 @@ class LoginViewController: UIViewController,UITableViewDelegate {
                 case let .textfield(title, textfield):
                     textfield.placeholder = title
                     cell.addSubview(textfield)
-                    textfield.topAnchor(equalTo: cell.topAnchor, constant: migrate)
-                    textfield.heightAnchor(equalTo: 40)
-                    textfield.bottomAnchor(equalTo: cell.bottomAnchor, constant: -migrate)
-                    textfield.leadingAnchor(equalTo: cell.leadingAnchor, constant: migrate)
-                    textfield.trailingAnchor(equalTo: cell.trailingAnchor, constant: -migrate)
+                    textfield.topAnchor.constraint(equalTo: cell.topAnchor, constant: migrate).isActive = true
+                    textfield.heightAnchor.constraint(equalToConstant: 50).isActive = true
+                    textfield.bottomAnchor.constraint(equalTo: cell.bottomAnchor, constant: -migrate).isActive = true
+                    textfield.leadingAnchor.constraint(equalTo: cell.leadingAnchor, constant: migrate).isActive = true
+                    textfield.trailingAnchor.constraint(equalTo: cell.trailingAnchor, constant: -migrate).isActive = true
                 case .loginButton:
                     self.loginButton.frame = CGRect.zero
                     cell.addSubview(self.loginButton)
-                    self.loginButton.heightAnchor(equalTo: 50)
-                    self.loginButton.topAnchor(equalTo: cell.topAnchor, constant: migrate)
-                    self.loginButton.bottomAnchor(equalTo: cell.bottomAnchor, constant: -migrate)
-                    self.loginButton.leadingAnchor(equalTo: cell.leadingAnchor, constant: migrate)
-                    self.loginButton.trailingAnchor(equalTo: cell.trailingAnchor, constant: -migrate)
+                    self.loginButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+                    self.loginButton.topAnchor.constraint(equalTo: cell.topAnchor, constant: migrate).isActive = true
+                    self.loginButton.bottomAnchor.constraint(equalTo: cell.bottomAnchor, constant: -migrate).isActive = true
+                    self.loginButton.leadingAnchor.constraint(equalTo: cell.leadingAnchor, constant: migrate).isActive = true
+                    self.loginButton.trailingAnchor.constraint(equalTo: cell.trailingAnchor, constant: -migrate).isActive = true
                 }
                 return cell
         })

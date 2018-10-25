@@ -11,17 +11,18 @@ import RxCocoa
 import RxSwift
 
 public protocol TrendingViewModelInputs {
-    var loadPageTrigger:PublishSubject<Void> { get }
-    var loadNextPageTrigger:PublishSubject<Void> { get }
     func refresh()
     func tapped(indexRow: Int)
-    func keyword(keyword:String)
+    func keyword(keyword: String)
+    
+    var loadPageTrigger: PublishSubject<Void> { get }
+    var loadNextPageTrigger: PublishSubject<Void> { get }
 }
 
 public protocol TrendingViewModelOutputs {
     var isLoading: Driver<Bool> { get }
     var moreLoading: Driver<Bool> { get }
-    var elements:BehaviorRelay<[Repository]> { get }
+    var elements: BehaviorRelay<[Repository]> { get }
     var selectedViewModel: Driver<RepoViewModel> { get }
 }
 
@@ -31,23 +32,42 @@ public protocol TrendingViewModelType {
 }
 
 public class TrendingViewModel: TrendingViewModelType, TrendingViewModelInputs, TrendingViewModelOutputs {
-
-    private let disposeBag = DisposeBag()
-    private var pageIndex:Int = 1
-    private let error = PublishSubject<Swift.Error>()
-    private var keyword = ""
     
+    // MARK: - Private properties 🕶
+    private var keyword = ""
+    private var pageIndex: Int = 1
+    private let disposeBag = DisposeBag()
+    private let error = PublishSubject<Swift.Error>()
+    
+    // MARK: - Visible properties 👓
+    let repository = BehaviorRelay<Repository?>(value: nil)
+    
+    public var isLoading: Driver<Bool>
+    public var moreLoading: Driver<Bool>
+    public var elements: BehaviorRelay<[Repository]>
+    
+    public var loadPageTrigger: PublishSubject<Void>
+    public var loadNextPageTrigger: PublishSubject<Void>
+    
+    public var selectedViewModel: Driver<RepoViewModel>
+    public var inputs: TrendingViewModelInputs { return self}
+    public var outputs: TrendingViewModelOutputs { return self}
+    
+    // MARK: - Constructor 🏗
     init() {
-        self.selectedViewModel = Driver.empty()
-        self.loadPageTrigger = PublishSubject<Void>()
-        self.loadNextPageTrigger = PublishSubject<Void>()
-        self.elements = BehaviorRelay<[Repository]>(value: [])
+        
         let Loading = ActivityIndicator()
         self.isLoading = Loading.asDriver()
         let moreLoading = ActivityIndicator()
+        self.selectedViewModel = Driver.empty()
         self.moreLoading = moreLoading.asDriver()
         
-        // first time load date
+        self.loadPageTrigger = PublishSubject<Void>()
+        self.loadNextPageTrigger = PublishSubject<Void>()
+        
+        self.elements = BehaviorRelay<[Repository]>(value: [])
+        
+        // First time load date
         let loadRequest = self.isLoading.asObservable()
             .sample(self.loadPageTrigger)
             .flatMap { isLoading -> Observable<[Repository]> in
@@ -57,14 +77,14 @@ public class TrendingViewModel: TrendingViewModelType, TrendingViewModelInputs, 
                     self.pageIndex = 1
                     self.elements.accept([])
                     return API.sharedAPI.recentRepositories(self.keyword, page: self.pageIndex)
-                    .trackActivity(Loading)
+                        .trackActivity(Loading)
                 }
         }
         
-        //get more data by page
+        // Get more data by page
         let nextRequest = self.moreLoading.asObservable()
-             .sample(self.loadNextPageTrigger)
-             .flatMap { isLoading -> Observable<[Repository]> in
+            .sample(self.loadNextPageTrigger)
+            .flatMap { isLoading -> Observable<[Repository]> in
                 if isLoading {
                     return Observable.empty()
                 } else {
@@ -74,8 +94,8 @@ public class TrendingViewModel: TrendingViewModelType, TrendingViewModelInputs, 
                 }
         }
         
-        let request = Observable.of(loadRequest,nextRequest)
-                                .merge()
+        let request = Observable.of(loadRequest, nextRequest)
+            .merge()
             .share(replay: 1)
         
         let response = request.flatMap { repositories -> Observable<[Repository]> in
@@ -87,8 +107,7 @@ public class TrendingViewModel: TrendingViewModelType, TrendingViewModelInputs, 
                 })
             }.share(replay: 1)
         
-        
-        //combine data when get more data by paging
+        // combine data when get more data by paging
         Observable
             .combineLatest(request, response, elements.asObservable()) { request, response, elements in
                 return self.pageIndex == 1 ? response : elements + response
@@ -99,9 +118,8 @@ public class TrendingViewModel: TrendingViewModelType, TrendingViewModelInputs, 
         
         //binding selected item
         self.selectedViewModel = self.repository.asDriver().filterNil().flatMapLatest{ repo -> Driver<RepoViewModel> in
-           return Driver.just(RepoViewModel(repo: repo))
+            return Driver.just(RepoViewModel(repo: repo))
         }
-
     }
     
     public func refresh() {
@@ -109,23 +127,12 @@ public class TrendingViewModel: TrendingViewModelType, TrendingViewModelInputs, 
             .onNext(())
     }
     
-    let repository = BehaviorRelay<Repository?>(value: nil)
     public func tapped(indexRow: Int) {
-      let repository = self.elements.value[indexRow]
+        let repository = self.elements.value[indexRow]
         self.repository.accept(repository)
     }
     
     public func keyword(keyword: String) {
         self.keyword = keyword
     }
-    
-    public var selectedViewModel: Driver<RepoViewModel>
-    public var loadPageTrigger:PublishSubject<Void>
-    public var loadNextPageTrigger:PublishSubject<Void>
-    public var moreLoading: Driver<Bool>
-    public var isLoading: Driver<Bool>
-    public var elements:BehaviorRelay<[Repository]>
-    public var inputs: TrendingViewModelInputs { return self}
-    public var outputs: TrendingViewModelOutputs { return self}
-
 }
